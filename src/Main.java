@@ -20,7 +20,7 @@ public class Main {
 
             switch (opcao) {
                 case 1:
-                    System.out.print("Digite o codigo da mesa: ");
+                    System.out.print("\nDigite o codigo da mesa: ");
                     int codigoMesa = sc.nextInt();
 
                     System.out.print("Numero da mesa: ");
@@ -37,16 +37,14 @@ public class Main {
 
                     break;
                 case 2:
-                    System.out.println("digite codigo mesa");
+                    System.out.print("\nDigite codigo da mesa: ");
                     codigoMesa = sc.nextInt();
-                    removeMesa (codigoMesa) ;
 
+                    removeMesa(codigoMesa);
 
-
-                    System.out.println("Mesa removida");
                     break;
                 case 3:
-                    System.out.print("Digite o numero da mesa: ");
+                    System.out.print("\nDigite o numero da mesa: ");
                     numeroMesa = sc.nextInt();
 
                     Mesa mesaEncontrada = encontraMesa(numeroMesa);
@@ -56,10 +54,7 @@ public class Main {
                         break;
                     }
 
-                    System.out.println(mesaEncontrada.getCodigoMesa());
-                    System.out.println(mesaEncontrada.getNumeroMesa());
-                    System.out.println(mesaEncontrada.getSituacao());
-                    System.out.println(mesaEncontrada.getCapacidadeMaxima());
+                    imprimeInformacoesMesa(mesaEncontrada);
 
                     break;
                 case 4:
@@ -71,7 +66,7 @@ public class Main {
                 case 0:
                     break;
                 default:
-                    System.out.println("Opção inválida");
+                    System.out.println("\nOpção inválida");
                     break;
             }
         } while (opcao != 0);
@@ -84,7 +79,7 @@ public class Main {
             BD_Mesa.add(mesa);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Erro ao gravar mesa!");
+            System.out.println("\nErro ao gravar mesa!");
         }
     }
 
@@ -102,16 +97,21 @@ public class Main {
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Erro ao encontrar mesa!");
+            System.out.println("\nErro ao encontrar mesa!");
         }
 
         return mesaEncontrada;
-
     }
 
-    private static void removeMesa(int codigoMesa){
-        try {
+    private static void imprimeInformacoesMesa(Mesa mesa) {
+        System.out.printf("\nCodigo: %d\n", mesa.getCodigoMesa());
+        System.out.printf("Numero: %d\n", mesa.getNumeroMesa());
+        System.out.printf("Situacao: %s\n", mesa.getSituacao());
+        System.out.printf("Capacidade Maxima: %d\n\n", mesa.getCapacidadeMaxima());
+    }
 
+    private static void removeMesa(int codigoMesa) {
+        try {
             for (int i = 0; i < BD_Mesa.size(); i++) {
                 Mesa mesaAtual = BD_Mesa.get(i);
 
@@ -121,10 +121,7 @@ public class Main {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Erro ao remover mesa!");
+            System.out.println("\nErro ao remover mesa!");
         }
-
     }
-
-
-    }
+}
