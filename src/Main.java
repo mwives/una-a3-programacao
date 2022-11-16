@@ -32,7 +32,7 @@ public class Main {
                     System.out.print("Capacidade de ocupação da mesa: ");
                     int capacidadeMaxima = sc.nextInt();
 
-                    Mesa mesa1 = new Mesa(codigoMesa,numeroMesa,situacao,capacidadeMaxima);
+                    Mesa mesa1 = new Mesa(codigoMesa, numeroMesa, situacao, capacidadeMaxima);
                     gravaMesa(mesa1);
 
                     break;
@@ -40,7 +40,21 @@ public class Main {
                     System.out.println("Mesa removida");
                     break;
                 case 3:
-                    System.out.println("Mesa encontrada");
+                    System.out.print("Digite o numero da mesa: ");
+                    numeroMesa = sc.nextInt();
+
+                    Mesa mesaEncontrada = encontraMesa(numeroMesa);
+
+                    if (mesaEncontrada == null) {
+                        System.out.println("Mesa nao encontrada");
+                        break;
+                    }
+
+                    System.out.println(mesaEncontrada.getCodigoMesa());
+                    System.out.println(mesaEncontrada.getNumeroMesa());
+                    System.out.println(mesaEncontrada.getSituacao());
+                    System.out.println(mesaEncontrada.getCapacidadeMaxima());
+
                     break;
                 case 4:
                     System.out.println("Mesa encontrada ");
@@ -66,5 +80,25 @@ public class Main {
             e.printStackTrace();
             System.out.println("Erro ao gravar mesa!");
         }
+    }
+
+    private static Mesa encontraMesa(int numeroMesa) {
+        Mesa mesaEncontrada = null;
+
+        try {
+            for (int i = 0; i < BD_Mesa.size(); i++) {
+                Mesa mesaAtual = BD_Mesa.get(i);
+
+                if (mesaAtual.getNumeroMesa() == numeroMesa) {
+                    mesaEncontrada = mesaAtual;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Erro ao encontrar mesa!");
+        }
+
+        return mesaEncontrada;
     }
 }
