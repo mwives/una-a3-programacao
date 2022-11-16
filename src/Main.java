@@ -1,8 +1,13 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+
+        List<Mesa> BD_Mesa = new ArrayList<Mesa>();
+        List<Garcom> BD_Garcom = new ArrayList<Garcom>();
 
         int opcao;
 
@@ -35,5 +40,7 @@ public class Main {
                     break;
             }
         } while (opcao != 0);
+
+        sc.close();
     }
 }
