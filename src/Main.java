@@ -3,11 +3,11 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+    static List<Mesa> BD_Mesa = new ArrayList<Mesa>();
+    List<Garcom> BD_Garcom = new ArrayList<Garcom>();
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
-        List<Mesa> BD_Mesa = new ArrayList<Mesa>();
-        List<Garcom> BD_Garcom = new ArrayList<Garcom>();
 
         int opcao;
 
@@ -20,17 +20,21 @@ public class Main {
 
             switch (opcao) {
                 case 1:
-                    System.out.println("Digite o codigo da mesa");
+                    System.out.print("Digite o codigo da mesa: ");
                     int codigoMesa = sc.nextInt();
-                    System.out.println("Numero da mesa");
+
+                    System.out.print("Numero da mesa: ");
                     int numeroMesa = sc.nextInt();
-                    System.out.println("Situação da mesa");
+
+                    System.out.print("Situação da mesa: ");
                     String situacao = sc.next();
-                    System.out.println("Capacidade de ocupação da mesa");
+
+                    System.out.print("Capacidade de ocupação da mesa: ");
                     int capacidadeMaxima = sc.nextInt();
-                    System.out.println("Cadastrado mesa");
+
                     Mesa mesa1 = new Mesa(codigoMesa,numeroMesa,situacao,capacidadeMaxima);
-                    System.out.println(mesa1.getCodigoMesa());
+                    gravaMesa(mesa1);
+
                     break;
                 case 2:
                     System.out.println("Mesa removida");
@@ -53,5 +57,14 @@ public class Main {
         } while (opcao != 0);
 
         sc.close();
+    }
+
+    private static void gravaMesa(Mesa mesa) {
+        try {
+            BD_Mesa.add(mesa);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Erro ao gravar mesa!");
+        }
     }
 }
