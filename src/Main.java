@@ -31,8 +31,8 @@ public class Main {
                     System.out.print("Capacidade de ocupação da mesa: ");
                     int capacidadeMaxima = sc.nextInt();
 
-                    Mesa mesa1 = new Mesa(BD_Mesa_Auto_Increment, numeroMesa, situacao, capacidadeMaxima);
-                    gravaMesa(mesa1);
+                    Mesa mesa = new Mesa(BD_Mesa_Auto_Increment, numeroMesa, situacao, capacidadeMaxima);
+                    gravaMesa(mesa);
 
                     break;
                 case 2:
