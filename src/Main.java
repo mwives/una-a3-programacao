@@ -47,7 +47,7 @@ public class Main {
                     System.out.print("\nDigite o numero da mesa: ");
                     numeroMesa = sc.nextInt();
 
-                    Mesa mesaEncontrada = encontraMesa(numeroMesa);
+                    Mesa mesaEncontrada = encontraMesaPeloNumero(numeroMesa);
 
                     if (mesaEncontrada == null) {
                         System.out.println("Mesa nao encontrada");
@@ -88,7 +88,7 @@ public class Main {
         }
     }
 
-    private static Mesa encontraMesa(int numeroMesa) {
+    private static Mesa encontraMesaPeloNumero(int numeroMesa) {
         Mesa mesaEncontrada = null;
 
         try {
