@@ -4,13 +4,15 @@ import java.util.Scanner;
 
 public class Main {
     static List<Mesa> BD_Mesa = new ArrayList<Mesa>();
-    List<Garcom> BD_Garcom = new ArrayList<Garcom>();
+    static int BD_Mesa_Auto_Increment = 1;
+
+    static List<Garcom> BD_Garcom = new ArrayList<Garcom>();
+    static int BD_Garcom_Auto_Increment = 1;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
         int opcao;
-
 
         do {
             // TODO: Deixar o menu bonitinho :)
@@ -20,10 +22,7 @@ public class Main {
 
             switch (opcao) {
                 case 1:
-                    System.out.print("\nDigite o codigo da mesa: ");
-                    int codigoMesa = sc.nextInt();
-
-                    System.out.print("Numero da mesa: ");
+                    System.out.print("\nNumero da mesa: ");
                     int numeroMesa = sc.nextInt();
 
                     System.out.print("Situação da mesa: ");
@@ -32,13 +31,13 @@ public class Main {
                     System.out.print("Capacidade de ocupação da mesa: ");
                     int capacidadeMaxima = sc.nextInt();
 
-                    Mesa mesa1 = new Mesa(codigoMesa, numeroMesa, situacao, capacidadeMaxima);
+                    Mesa mesa1 = new Mesa(BD_Mesa_Auto_Increment, numeroMesa, situacao, capacidadeMaxima);
                     gravaMesa(mesa1);
 
                     break;
                 case 2:
                     System.out.print("\nDigite codigo da mesa: ");
-                    codigoMesa = sc.nextInt();
+                    int codigoMesa = sc.nextInt();
 
                     removeMesa(codigoMesa);
 
@@ -82,6 +81,7 @@ public class Main {
     private static void gravaMesa(Mesa mesa) {
         try {
             BD_Mesa.add(mesa);
+            BD_Mesa_Auto_Increment++;
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("\nErro ao gravar mesa!");
