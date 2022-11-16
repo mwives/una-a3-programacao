@@ -11,6 +11,7 @@ public class Main {
 
         int opcao;
 
+
         do {
             // TODO: Deixar o menu bonitinho :)
             System.out.println(" 1. Cadastro de mesa\n 2. Remoção de mesa\n 3. Busca mesa pelo número\n 4. Busca mesa pela capacidade de clientes\n 5. relatório de mesas\n 0. sair\n");
@@ -19,7 +20,17 @@ public class Main {
 
             switch (opcao) {
                 case 1:
-                    System.out.println("Cadastrar mesa");
+                    System.out.println("Digite o codigo da mesa");
+                    int codigoMesa = sc.nextInt();
+                    System.out.println("Numero da mesa");
+                    int numeroMesa = sc.nextInt();
+                    System.out.println("Situação da mesa");
+                    String situacao = sc.next();
+                    System.out.println("Capacidade de ocupação da mesa");
+                    int capacidadeMaxima = sc.nextInt();
+                    System.out.println("Cadastrado mesa");
+                    Mesa mesa1 = new Mesa(codigoMesa,numeroMesa,situacao,capacidadeMaxima);
+                    System.out.println(mesa1.getCodigoMesa());
                     break;
                 case 2:
                     System.out.println("Mesa removida");
