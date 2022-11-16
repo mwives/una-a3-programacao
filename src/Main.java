@@ -61,7 +61,12 @@ public class Main {
                     System.out.println("Mesa encontrada ");
                     break;
                 case 5:
-                    System.out.println("Relatorio das mesas");
+                    for (int i = 0; i < BD_Mesa.size(); i++) {
+                        imprimeInformacoesMesa(BD_Mesa.get(i));
+                    }
+
+                    System.out.println();
+
                     break;
                 case 0:
                     break;
@@ -107,7 +112,7 @@ public class Main {
         System.out.printf("\nCodigo: %d\n", mesa.getCodigoMesa());
         System.out.printf("Numero: %d\n", mesa.getNumeroMesa());
         System.out.printf("Situacao: %s\n", mesa.getSituacao());
-        System.out.printf("Capacidade Maxima: %d\n\n", mesa.getCapacidadeMaxima());
+        System.out.printf("Capacidade Maxima: %d\n", mesa.getCapacidadeMaxima());
     }
 
     private static void removeMesa(int codigoMesa) {
