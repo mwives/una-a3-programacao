@@ -15,8 +15,16 @@ public class Main {
         int opcao;
 
         do {
-            // TODO: Deixar o menu bonitinho :)
-            System.out.println(" 1. Cadastro de mesa\n 2. Remoção de mesa\n 3. Busca mesa pelo número\n 4. Busca mesa pela capacidade de clientes\n 5. relatório de mesas\n 0. sair\n");
+            System.out.println("+---------------------------------+");
+            System.out.println("|     Menu de opções              |");
+            System.out.println("+---------------------------------+");
+            System.out.println("| 1. Cadastro de mesa             |");
+            System.out.println("| 2. Remoção de mesa              |");
+            System.out.println("| 3. Busca mesa pelo número       |");
+            System.out.println("| 4. Busca mesa pela capacidade   |");
+            System.out.println("| 5. Relatório de mesas           |");
+            System.out.println("| 0. Sair                         |");
+            System.out.println("+---------------------------------+");
 
             opcao = sc.nextInt();
 
