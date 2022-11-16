@@ -37,6 +37,12 @@ public class Main {
 
                     break;
                 case 2:
+                    System.out.println("digite codigo mesa");
+                    codigoMesa = sc.nextInt();
+                    removeMesa (codigoMesa) ;
+
+
+
                     System.out.println("Mesa removida");
                     break;
                 case 3:
@@ -100,5 +106,25 @@ public class Main {
         }
 
         return mesaEncontrada;
+
     }
-}
+
+    private static void removeMesa(int codigoMesa){
+        try {
+
+            for (int i = 0; i < BD_Mesa.size(); i++) {
+                Mesa mesaAtual = BD_Mesa.get(i);
+
+                if (mesaAtual.getCodigoMesa() == codigoMesa) {
+                    BD_Mesa.remove(i);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Erro ao remover mesa!");
+        }
+
+    }
+
+
+    }
