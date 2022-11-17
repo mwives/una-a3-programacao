@@ -4,10 +4,10 @@ public class Mesa {
     private String situacao;
     private int capacidadeMaxima;
 
-    public Mesa(int codigoMesa, int numeroMesa, String situacao, int capacidadeMaxima) {
+    public Mesa(int codigoMesa, int numeroMesa, int capacidadeMaxima) {
         this.codigoMesa = codigoMesa;
         this.numeroMesa = numeroMesa;
-        this.situacao = situacao;
+        this.situacao = "Livre";
         this.capacidadeMaxima = capacidadeMaxima;
     }
 
