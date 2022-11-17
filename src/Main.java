@@ -137,14 +137,18 @@ public class Main {
         System.out.print("Digite a capacidade da mesa: ");
         int capacidade = sc.nextInt();
 
+        boolean mesaEncontrada = false;
+
         for (Mesa mesa : BD_Mesa) {
-            if (mesa.getCapacidadeMaxima() == capacidade) {
+            if (mesa.getCapacidadeMaxima() >= capacidade) {
                 imprimirInformacoesMesa(mesa);
-                return;
+                mesaEncontrada = true;
             }
         }
 
-        System.out.println("Mesa não encontrada!");
+        if (!mesaEncontrada) {
+            System.out.println("\nNenhuma mesa encontrada para essa capacidade!");
+        }
     }
 
     public static void removerMesa() {
