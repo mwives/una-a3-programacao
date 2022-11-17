@@ -57,7 +57,8 @@ public class Main {
             System.out.println("| 3. Remover                      |");
             System.out.println("| 4. Buscar pelo numero           |");
             System.out.println("| 5. Buscar pela capacidade       |");
-            System.out.println("| 6. Relatorio                    |");
+            System.out.println("| 6. Buscar mesas livres          |");
+            System.out.println("| 7. Relatorio                    |");
             System.out.println("| 0. Voltar                       |");
             System.out.println("+---------------------------------+");
 
@@ -81,6 +82,9 @@ public class Main {
                     buscarMesaPelaCapacidade();
                     break;
                 case 6:
+                    buscarMesasLivres();
+                    break;
+                case 7:
                     relatorioMesas();
                     break;
                 case 0:
@@ -191,6 +195,21 @@ public class Main {
 
         if (!mesaEncontrada) {
             System.out.println("\nNenhuma mesa encontrada para essa capacidade!");
+        }
+    }
+
+    public static void buscarMesasLivres() {
+        boolean mesaEncontrada = false;
+
+        for (Mesa mesa : BD_Mesa) {
+            if (mesa.getSituacao() == SituacaoMesa.LIVRE) {
+                imprimirInformacoesMesa(mesa);
+                mesaEncontrada = true;
+            }
+        }
+
+        if (!mesaEncontrada) {
+            System.out.println("\nNenhuma mesa livre encontrada!");
         }
     }
 
