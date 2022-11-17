@@ -53,10 +53,11 @@ public class Main {
             System.out.println("|     Opções de mesas             |");
             System.out.println("+---------------------------------+");
             System.out.println("| 1. Cadastrar                    |");
-            System.out.println("| 2. Remover                      |");
-            System.out.println("| 3. Buscar pelo numero           |");
-            System.out.println("| 4. Buscar pela capacidade       |");
-            System.out.println("| 5. Relatorio                    |");
+            System.out.println("| 2. Atualizar situacao           |");
+            System.out.println("| 3. Remover                      |");
+            System.out.println("| 4. Buscar pelo numero           |");
+            System.out.println("| 5. Buscar pela capacidade       |");
+            System.out.println("| 6. Relatorio                    |");
             System.out.println("| 0. Voltar                       |");
             System.out.println("+---------------------------------+");
 
@@ -68,15 +69,18 @@ public class Main {
                     cadastrarMesa();
                     break;
                 case 2:
-                    removerMesa();
+                    atualizarSituacaoMesa();
                     break;
                 case 3:
-                    buscarMesaPeloNumero();
+                    removerMesa();
                     break;
                 case 4:
-                    buscarMesaPelaCapacidade();
+                    buscarMesaPeloNumero();
                     break;
                 case 5:
+                    buscarMesaPelaCapacidade();
+                    break;
+                case 6:
                     relatorioMesas();
                     break;
                 case 0:
@@ -106,6 +110,45 @@ public class Main {
         BD_Mesa_Auto_Increment++;
 
         System.out.println("Mesa cadastrada com sucesso!");
+    }
+
+    public static void atualizarSituacaoMesa() {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Digite o numero da mesa: ");
+        int numero = sc.nextInt();
+
+        Mesa mesaEncontrada = null;
+
+        for (Mesa mesa : BD_Mesa) {
+            if (mesa.getNumeroMesa() == numero) {
+                mesaEncontrada = mesa;
+            }
+        }
+
+        System.out.println("+---------------------------------+");
+        System.out.println("| 1. Livre                        |");
+        System.out.println("| 2. Ocupada                      |");
+        System.out.println("| 3. Reservada                    |");
+        System.out.println("+---------------------------------+");
+
+        System.out.print("Escolha uma opcao para a situacao: ");
+        int situacao = sc.nextInt();
+
+        switch (situacao) {
+            case 1:
+                mesaEncontrada.setSituacao(SituacaoMesa.LIVRE);
+                break;
+            case 2:
+                mesaEncontrada.setSituacao(SituacaoMesa.OCUPADA);
+                break;
+            case 3:
+                mesaEncontrada.setSituacao(SituacaoMesa.RESERVADA);
+                break;
+            default:
+                System.out.println("\nOpção inválida!");
+                break;
+        }
     }
 
     public static void imprimirInformacoesMesa(Mesa mesa) {

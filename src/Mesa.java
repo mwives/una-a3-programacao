@@ -1,13 +1,13 @@
 public class Mesa {
     private int codigoMesa;
     private int numeroMesa;
-    private String situacao;
+    private SituacaoMesa situacao;
     private int capacidadeMaxima;
 
     public Mesa(int codigoMesa, int numeroMesa, int capacidadeMaxima) {
         this.codigoMesa = codigoMesa;
         this.numeroMesa = numeroMesa;
-        this.situacao = "Livre";
+        this.situacao = SituacaoMesa.LIVRE;
         this.capacidadeMaxima = capacidadeMaxima;
     }
 
@@ -27,11 +27,11 @@ public class Mesa {
         this.numeroMesa = numeroMesa;
     }
 
-    public String getSituacao() {
+    public SituacaoMesa getSituacao() {
         return situacao;
     }
 
-    public void setSituacao(String situacao) {
+    public void setSituacao(SituacaoMesa situacao) {
         this.situacao = situacao;
     }
 
