@@ -18,8 +18,8 @@ public class Main {
             System.out.println("+---------------------------------+");
             System.out.println("|     Menu de opções              |");
             System.out.println("+---------------------------------+");
-            System.out.println("| 1. Opcoes p/ mesas              |");
-            System.out.println("| 2. Opcoes p/ garcom             |");
+            System.out.println("| 1. Opcoes p/ garcom             |");
+            System.out.println("| 2. Opcoes p/ mesas              |");
             System.out.println("| 0. Sair                         |");
             System.out.println("+---------------------------------+");
 
@@ -28,10 +28,10 @@ public class Main {
 
             switch (opcao) {
                 case 1:
-                    opcoesMesas();
+                    opcoesGarcom();
                     break;
                 case 2:
-                    System.out.println("TODO: Mostrar opções garçom");
+                    opcoesMesas();
                     break;
                 case 0:
                     System.out.println("Tchau :(");
@@ -42,6 +42,7 @@ public class Main {
         } while (opcao != 0);
     }
 
+    // Mesa
     public static void opcoesMesas() {
         Scanner sc = new Scanner(System.in);
 
@@ -108,7 +109,12 @@ public class Main {
         System.out.print("Digite a capacidade da mesa: ");
         int capacidade = sc.nextInt();
 
-        Mesa mesa = new Mesa(BD_Mesa_Auto_Increment, numero, capacidade);
+        System.out.print("Digite o CPF do garcom responsavel: ");
+        String cpf = sc.next();
+
+        Garcom garcom = buscarGarcomPorCpf(cpf);
+
+        Mesa mesa = new Mesa(BD_Mesa_Auto_Increment, numero, capacidade, garcom);
 
         BD_Mesa.add(mesa);
         BD_Mesa_Auto_Increment++;
@@ -199,6 +205,7 @@ public class Main {
     }
 
     public static void buscarMesasLivres() {
+        // Adicionar o garçom responsável
         boolean mesaEncontrada = false;
 
         for (Mesa mesa : BD_Mesa) {
@@ -235,6 +242,180 @@ public class Main {
 
         for (Mesa mesa : BD_Mesa) {
             imprimirInformacoesMesa(mesa);
+        }
+    }
+
+    // Garcom
+    public static void opcoesGarcom() {
+        Scanner sc = new Scanner(System.in);
+
+        int opcao;
+
+        do {
+            System.out.println();
+            System.out.println("+---------------------------------+");
+            System.out.println("|     Opções de mesas             |");
+            System.out.println("+---------------------------------+");
+            System.out.println("| 1. Cadastrar garçom             |");
+            System.out.println("| 2. Remover                      |");
+            System.out.println("| 3. Buscar garçom                |");
+            System.out.println("| 4. Relatório de garçons         |");
+            System.out.println("| 0. Voltar                       |");
+            System.out.println("+---------------------------------+");
+
+            // Buscar garçom tanto por email quanto cpf
+
+            System.out.print("Digite a opção desejada: ");
+            opcao = sc.nextInt();
+
+            switch (opcao) {
+                case 1:
+                    cadastrarGarcom();
+                    break;
+                case 2:
+                    removerGarcom();
+                    break;
+                case 3:
+                    buscarGarcom();
+                    break;
+                case 4:
+                    relatorioGarcom();
+                    break;
+                case 0:
+                    System.out.println("Voltando...");
+                    break;
+                default:
+                    System.out.println("\nOpção inválida!");
+                    break;
+            }
+        } while (opcao != 0);
+    }
+
+    public static void cadastrarGarcom() {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Digite o nome do garçom: ");
+        String nome = sc.nextLine();
+
+        System.out.print("Digite o CPF do garçom: ");
+        String cpf = sc.nextLine();
+
+        System.out.print("Digite o email do garçom: ");
+        String email = sc.nextLine();
+
+        System.out.print("Digite o telefone do garçom: ");
+        String telefone = sc.nextLine();
+
+        Garcom garcom = new Garcom(nome, cpf, email, telefone);
+
+        BD_Garcom.add(garcom);
+
+        System.out.println("Garçom cadastrado com sucesso!");
+    }
+
+    public static void removerGarcom() {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Digite o CPF do garçom: ");
+        String cpf = sc.nextLine();
+
+        for (Garcom garcom : BD_Garcom) {
+            if (garcom.getCpf().equals(cpf)) {
+                BD_Garcom.remove(garcom);
+                System.out.println("Garçom removido com sucesso!");
+                return;
+            }
+        }
+
+        System.out.println("Garçom não encontrado!");
+    }
+
+    public static void buscarGarcom() {
+        // dar opções de buscar por cpf ou email
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("+---------------------------------+");
+        System.out.println("| 1. Por CPF                      |");
+        System.out.println("| 2. Por Email                    |");
+        System.out.println("+---------------------------------+");
+
+        System.out.print("Digite a opção desejada: ");
+        int opcao = sc.nextInt();
+
+        switch (opcao) {
+            case 1:
+                buscarGarcomPorCpf();
+                break;
+            case 2:
+                buscarGarcomPorEmail();
+                break;
+            default:
+                System.out.println("\nOpção inválida!");
+                break;
+        }
+    }
+
+    public static void buscarGarcomPorCpf() {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Digite o CPF do garçom: ");
+        String cpf = sc.nextLine();
+
+        for (Garcom garcom : BD_Garcom) {
+            if (garcom.getCpf().equals(cpf)) {
+                imprimirInformacoesGarcom(garcom);
+                return;
+            }
+        }
+
+        System.out.println("Garçom não encontrado!");
+    }
+
+    public static void buscarGarcomPorEmail() {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Digite o email do garçom: ");
+        String email = sc.nextLine();
+
+        for (Garcom garcom : BD_Garcom) {
+            if (garcom.getEmail().equals(email)) {
+                imprimirInformacoesGarcom(garcom);
+                return;
+            }
+        }
+
+        System.out.println("Garçom não encontrado!");
+    }
+
+    public static List<Mesa> buscarMesasDoGarcom(Garcom garcom) {
+        List<Mesa> mesas = new ArrayList<>();
+
+        for (Mesa mesa : BD_Mesa) {
+            if (mesa.getGarcomResponsavel() == garcom) {
+                mesas.add(mesa);
+            }
+        }
+
+        return mesas;
+    }
+
+    public static void relatorioGarcom() {
+        System.out.println("Relatório de garçons...");
+
+        for (Garcom garcom : BD_Garcom) {
+            imprimirInformacoesGarcom(garcom);
+
+            List<Mesa> mesas = buscarMesasDoGarcom(garcom);
+
+            if (mesas.size() > 0) {
+                System.out.println("Mesas que o garçom está responsável: ");
+
+                for (Mesa mesa : mesas) {
+                    System.out.println("Mesa " + mesa.getNumeroMesa());
+                }
+            } else {
+                System.out.println("Garçom não está responsável por nenhuma mesa!");
+            }
         }
     }
 }
