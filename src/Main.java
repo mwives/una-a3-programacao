@@ -434,7 +434,7 @@ public class Main {
         System.out.println("CPF: " + garcom.getCpf());
         System.out.println("Sexo: " + garcom.getSexo());
         System.out.println("Salario fixo: " + garcom.getSalariofixo());
-        System.out.println("Responsável por: " + getQuantidadeMesasResponsavel(garcom) + " mesa(s)");
+        System.out.println("Responsável por: " + getQuantidadeMesasGarcom(garcom) + " mesa(s)");
     }
 
     public static void removerGarcom() {
@@ -548,7 +548,7 @@ public class Main {
         }
     }
 
-    private static int getQuantidadeMesasResponsavel(Garcom garcom) {
+    private static int getQuantidadeMesasGarcom(Garcom garcom) {
         int quantidadeMesas = 0;
 
         for (Mesa mesa : BD_Mesa) {
