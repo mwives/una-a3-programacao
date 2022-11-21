@@ -412,7 +412,7 @@ public class Main {
             default:
                 sexo = Genero.OUTRO;
                 break;
-        };
+        }
 
         System.out.print("Digite o salario fixo: ");
         double salarioFixo = sc.nextDouble();
@@ -528,18 +528,6 @@ public class Main {
         }
 
         return null;
-    }
-
-    public static List<Mesa> buscarMesasDoGarcom(Garcom garcom) {
-        List<Mesa> mesas = new ArrayList<>();
-
-        for (Mesa mesa : BD_Mesa) {
-            if (mesa.getGarcomResponsavel() == garcom) {
-                mesas.add(mesa);
-            }
-        }
-
-        return mesas;
     }
 
     public static void relatorioGarcom() {
