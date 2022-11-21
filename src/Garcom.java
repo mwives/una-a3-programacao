@@ -1,16 +1,14 @@
-import java.util.Date;
-
 public class Garcom {
     private int codigoGarcom;
     private String nome;
-    private Date dataNascimento;
+    private String dataNascimento;
     private String email;
     private String telefone;
     private String cpf;
-    private String sexo;
-    private String salariofixo;
+    private Genero sexo;
+    private double salariofixo;
 
-    public Garcom(int codigoGarcom, String nome, Date dataNascimento, String email, String telefone, String cpf, String sexo, String salariofixo) {
+    public Garcom(int codigoGarcom, String nome, String dataNascimento, String email, String telefone, String cpf, Genero sexo, double salariofixo) {
         this.codigoGarcom = codigoGarcom;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
@@ -37,11 +35,11 @@ public class Garcom {
         this.nome = nome;
     }
 
-    public Date getDataNascimento() {
+    public String getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(Date dataNascimento) {
+    public void setDataNascimento(String dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 
@@ -69,19 +67,19 @@ public class Garcom {
         this.cpf = cpf;
     }
 
-    public String getSexo() {
+    public Genero getSexo() {
         return sexo;
     }
 
-    public void setSexo(String sexo) {
+    public void setSexo(Genero sexo) {
         this.sexo = sexo;
     }
 
-    public String getSalariofixo() {
+    public double getSalariofixo() {
         return salariofixo;
     }
 
-    public void setSalariofixo(String salariofixo) {
+    public void setSalariofixo(double salariofixo) {
         this.salariofixo = salariofixo;
     }
 }
