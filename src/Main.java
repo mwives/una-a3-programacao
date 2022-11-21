@@ -552,7 +552,7 @@ public class Main {
         int quantidadeMesas = 0;
 
         for (Mesa mesa : BD_Mesa) {
-            if (mesa.getGarcomResponsavel() == garcom) {
+            if (mesa.getGarcomResponsavel().equals(garcom)) {
                 quantidadeMesas++;
             }
         }
