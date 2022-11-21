@@ -18,8 +18,8 @@ public class Main {
             System.out.println("+---------------------------------+");
             System.out.println("|     Menu de opções              |");
             System.out.println("+---------------------------------+");
-            System.out.println("| 1. Opcoes p/ garcom             |");
-            System.out.println("| 2. Opcoes p/ mesas              |");
+            System.out.println("| 1. Opções p/ garçom             |");
+            System.out.println("| 2. Opções p/ mesas              |");
             System.out.println("| 0. Sair                         |");
             System.out.println("+---------------------------------+");
 
@@ -52,17 +52,17 @@ public class Main {
         do {
             System.out.println();
             System.out.println("+---------------------------------+");
-            System.out.println("|     Opcoes de mesas             |");
+            System.out.println("|     Opções de mesas             |");
             System.out.println("+---------------------------------+");
             System.out.println("| 1. Cadastrar                    |");
-            System.out.println("| 2. Atualizar situacao           |");
+            System.out.println("| 2. Atualizar situação           |");
             System.out.println("| 3. Remover                      |");
             System.out.println("| 4. Buscar                       |");
-            System.out.println("| 5. Gerar relatorio              |");
+            System.out.println("| 5. Gerar relatório              |");
             System.out.println("| 0. Voltar                       |");
             System.out.println("+---------------------------------+");
 
-            System.out.print("Digite a opcao desejada: ");
+            System.out.print("Digite a opção desejada: ");
             opcao = sc.nextInt();
 
             switch (opcao) {
@@ -99,7 +99,7 @@ public class Main {
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("\nDigite o numero da mesa: ");
+        System.out.print("\nDigite o número da mesa: ");
         int numero = sc.nextInt();
 
         System.out.print("Digite a capacidade da mesa: ");
@@ -114,13 +114,13 @@ public class Main {
                 System.out.println("- " + g.getEmail());
             }
 
-            System.out.print("Digite o email do garcom responsavel: ");
+            System.out.print("Digite o email do garçom responsável: ");
             String emailGarcom = sc.next();
 
             garcom = buscarGarcomPorEmail(emailGarcom);
 
             if (garcom == null) {
-                System.out.println("Garcom não encontrado!");
+                System.out.println("Garçom não encontrado!");
             }
         } while (garcom == null);
 
@@ -136,7 +136,7 @@ public class Main {
     public static void atualizarSituacaoMesa() {
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Digite o numero da mesa: ");
+        System.out.print("Digite o número da mesa: ");
         int numero = sc.nextInt();
 
         Mesa mesaEncontrada = null;
@@ -153,7 +153,7 @@ public class Main {
         System.out.println("| 3. Reservada                    |");
         System.out.println("+---------------------------------+");
 
-        System.out.print("Escolha uma opcao para a situacao: ");
+        System.out.print("Escolha uma opção para a situação: ");
         int situacao = sc.nextInt();
 
         switch (situacao) {
@@ -178,7 +178,7 @@ public class Main {
     public static void removerMesa() {
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Digite o numero da mesa: ");
+        System.out.print("Digite o número da mesa: ");
         int numero = sc.nextInt();
 
         for (Mesa mesa : BD_Mesa) {
@@ -195,7 +195,7 @@ public class Main {
     public static void buscarMesaPeloNumero() {
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Digite o numero da mesa: ");
+        System.out.print("Digite o número da mesa: ");
         int numero = sc.nextInt();
 
         for (Mesa mesa : BD_Mesa) {
@@ -205,7 +205,7 @@ public class Main {
             }
         }
 
-        System.out.println("\nNenhuma mesa com este numero encontrada!");
+        System.out.println("\nNenhuma mesa encontrada para este número!");
     }
 
     public static void opcoesRelatoriosMesa() {
@@ -219,7 +219,7 @@ public class Main {
         System.out.println("| 4. Por garçom (mesas ocupadas)  |");
         System.out.println("+---------------------------------+");
 
-        System.out.print("Escolha uma opcao p/ relatorio: ");
+        System.out.print("Escolha uma opcao p/ relatório: ");
         int opcao = sc.nextInt();
 
         switch (opcao) {
@@ -243,9 +243,9 @@ public class Main {
 
     public static void imprimirInformacoesMesa(Mesa mesa) {
         System.out.println("\nID: " + mesa.getCodigoMesa());
-        System.out.println("Numero: " + mesa.getNumeroMesa());
+        System.out.println("Número: " + mesa.getNumeroMesa());
         System.out.println("Capacidade: " + mesa.getCapacidadeMaxima());
-        System.out.println("Situacao: " + mesa.getSituacao());
+        System.out.println("Situação: " + mesa.getSituacao());
         System.out.println("Garçom responsável: " + mesa.getGarcomResponsavel().getNome());
     }
 
@@ -296,19 +296,19 @@ public class Main {
         Garcom garcom;
 
         do {
-            System.out.println("\nGarcons cadastrados:");
+            System.out.println("\nGarçons cadastrados:");
 
             for (Garcom g : BD_Garcom) {
                 System.out.println("- " + g.getEmail());
             }
 
-            System.out.print("Digite o email do garcom: ");
+            System.out.print("Digite o email do garçom: ");
             String emailGarcom = sc.next();
 
             garcom = buscarGarcomPorEmail(emailGarcom);
 
             if (garcom == null) {
-                System.out.println("\n  Garcom não encontrado!");
+                System.out.println("\nGarçom não encontrado!");
             }
         } while (garcom == null);
 
@@ -325,7 +325,7 @@ public class Main {
         }
 
         if (!mesaEncontrada) {
-            System.out.println("\nNenhuma mesa encontrada para esse garçom!");
+            System.out.println("\nNenhuma mesa encontrada para este garçom!");
         }
     }
 
@@ -364,7 +364,7 @@ public class Main {
                     relatorioGarcom();
                     break;
                 case 0:
-                    System.out.println("Voltando...");
+                    System.out.println("\nVoltando...");
                     break;
                 default:
                     System.out.println("\nOpção inválida!");
