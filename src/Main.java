@@ -56,9 +56,10 @@ public class Main {
             System.out.println("+---------------------------------+");
             System.out.println("| 1. Cadastrar                    |");
             System.out.println("| 2. Atualizar situação           |");
-            System.out.println("| 3. Remover                      |");
-            System.out.println("| 4. Buscar                       |");
-            System.out.println("| 5. Gerar relatório              |");
+            System.out.println("| 3. Atualizar garçom responsável |");
+            System.out.println("| 4. Remover                      |");
+            System.out.println("| 5. Buscar                       |");
+            System.out.println("| 6. Gerar relatório              |");
             System.out.println("| 0. Voltar                       |");
             System.out.println("+---------------------------------+");
 
@@ -72,13 +73,16 @@ public class Main {
                 case 2:
                     atualizarSituacaoMesa();
                     break;
-                case 3:
-                    removerMesa();
+                case 3: 
+                    atualizarGarcomResponsavel();
                     break;
                 case 4:
-                    buscarMesaPeloNumero();
+                    removerMesa();
                     break;
                 case 5:
+                    buscarMesaPeloNumero();
+                    break;
+                case 6:
                     opcoesRelatoriosMesa();
                     break;
                 case 0:
@@ -174,6 +178,47 @@ public class Main {
                 System.out.println("\nOpção inválida!");
                 break;
         }
+    }
+
+    public static void atualizarGarcomResponsavel() {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Digite o número da mesa: ");
+        int numero = sc.nextInt();
+
+        Mesa mesaEncontrada = null;
+
+        for (Mesa mesa : BD_Mesa) {
+            if (mesa.getNumeroMesa() == numero) {
+                mesaEncontrada = mesa;
+            }
+        }
+
+        if (mesaEncontrada == null) {
+            System.out.println("Mesa não encontrada!");
+            return;
+        }
+
+        Garcom garcom;
+
+        do {
+            System.out.println("Garcons cadastrados:");
+
+            for (Garcom g : BD_Garcom) {
+                System.out.println("- " + g.getEmail());
+            }
+
+            System.out.print("Digite o email do garçom responsável: ");
+            String emailGarcom = sc.next();
+
+            garcom = buscarGarcomPorEmail(emailGarcom);
+
+            if (garcom == null) {
+                System.out.println("Garçom não encontrado!");
+            }
+        } while (garcom == null);
+
+        mesaEncontrada.setGarcomResponsavel(garcom);
     }
 
     public static void removerMesa() {
