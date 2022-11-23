@@ -129,6 +129,7 @@ public class Main {
 
         BD_Mesa.add(mesa);
         BD_Mesa_Auto_Increment++;
+        garcom.addMesa(mesa);
 
         System.out.println("Mesa cadastrada com sucesso!");
     }
@@ -184,7 +185,10 @@ public class Main {
         for (Mesa mesa : BD_Mesa) {
             if (mesa.getNumeroMesa() == numero) {
                 BD_Mesa.remove(mesa);
+                mesa.getGarcomResponsavel().removeMesa(mesa);
+
                 System.out.println("Mesa removida com sucesso!");
+
                 return;
             }
         }

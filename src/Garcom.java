@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Garcom {
     private int codigoGarcom;
     private String nome;
@@ -7,6 +9,7 @@ public class Garcom {
     private String cpf;
     private Genero sexo;
     private double salariofixo;
+    private ArrayList<Mesa> mesas;
 
     public Garcom(int codigoGarcom, String nome, String dataNascimento, String email, String telefone, String cpf, Genero sexo, double salariofixo) {
         this.codigoGarcom = codigoGarcom;
@@ -81,5 +84,17 @@ public class Garcom {
 
     public void setSalariofixo(double salariofixo) {
         this.salariofixo = salariofixo;
+    }
+
+    public ArrayList<Mesa> getMesas() {
+        return mesas;
+    }
+
+    public void addMesa(Mesa mesa) {
+        this.mesas.add(mesa);
+    }
+
+    public void removeMesa(Mesa mesa) {
+        this.mesas.remove(mesa);
     }
 }
