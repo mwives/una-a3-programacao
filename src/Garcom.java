@@ -9,7 +9,7 @@ public class Garcom {
     private String cpf;
     private Genero sexo;
     private double salariofixo;
-    private ArrayList<Mesa> mesas;
+    private List<Mesa> mesas = new ArrayList<>();
 
     public Garcom(int codigoGarcom, String nome, String dataNascimento, String email, String telefone, String cpf, Genero sexo, double salariofixo) {
         this.codigoGarcom = codigoGarcom;
