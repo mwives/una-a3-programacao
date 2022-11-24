@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Garcom {
     private int codigoGarcom;
@@ -9,7 +10,7 @@ public class Garcom {
     private String cpf;
     private Genero sexo;
     private double salariofixo;
-    private List<Mesa> mesas = new ArrayList<>();
+    private List<Mesa> mesas;
 
     public Garcom(int codigoGarcom, String nome, String dataNascimento, String email, String telefone, String cpf, Genero sexo, double salariofixo) {
         this.codigoGarcom = codigoGarcom;
@@ -20,6 +21,7 @@ public class Garcom {
         this.cpf = cpf;
         this.sexo = sexo;
         this.salariofixo = salariofixo;
+        this.mesas = new ArrayList<>();
     }
 
     public int getCodigoGarcom() {
@@ -86,8 +88,8 @@ public class Garcom {
         this.salariofixo = salariofixo;
     }
 
-    public ArrayList<Mesa> getMesas() {
-        return mesas;
+    public List<Mesa> getMesas() {
+        return mesas ;
     }
 
     public void addMesa(Mesa mesa) {

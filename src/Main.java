@@ -1,6 +1,13 @@
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+/*
+- Ives Martins Watanabe/ 202220670
+- Patrick Ferreira Rezende Dezuani/202220304
+- Samuel Sales Coelho Lima/202210219
+ */
 
 public class Main {
     static List<Mesa> BD_Mesa = new ArrayList<>();
@@ -34,10 +41,10 @@ public class Main {
                     opcoesMesas();
                     break;
                 case 0:
-                    System.out.println("Tchau :(");
+                    System.out.println("\nTchau :(");
                     break;
                 default:
-                    System.out.println("Opção inválida!");
+                    System.out.println("\nOpção inválida!");
                     break;
             }
         } while (opcao != 0);
@@ -86,10 +93,10 @@ public class Main {
                     opcoesRelatoriosMesa();
                     break;
                 case 0:
-                    System.out.println("Voltando...");
+                    System.out.println("\nVoltando...");
                     break;
                 default:
-                    System.out.println("Opção inválida!");
+                    System.out.println("\nOpção inválida!");
                     break;
             }
         } while (opcao != 0);
@@ -112,19 +119,19 @@ public class Main {
         Garcom garcom;
 
         do {
-            System.out.println("Garcons cadastrados:");
+            System.out.println("\nGarcons cadastrados:");
 
             for (Garcom g : BD_Garcom) {
-                System.out.println("- " + g.getEmail());
+                imprimirInformacoesGarcom(g);
             }
 
-            System.out.print("Digite o email do garçom responsável: ");
-            String emailGarcom = sc.next();
+            System.out.print("\nDigite o ID do garçom responsável: ");
+            int idGarcom = sc.nextInt();
 
-            garcom = buscarGarcomPorEmail(emailGarcom);
+            garcom = buscarGarcomPorId(idGarcom);
 
             if (garcom == null) {
-                System.out.println("Garçom não encontrado!");
+                System.out.println("\nGarçom não encontrado!");
             }
         } while (garcom == null);
 
@@ -135,7 +142,7 @@ public class Main {
         BD_Mesa_Auto_Increment++;
         garcom.addMesa(mesa);
 
-        System.out.println("Mesa cadastrada com sucesso!");
+        System.out.println("\nMesa cadastrada com sucesso!");
     }
 
     public static void atualizarSituacaoMesa() {
@@ -214,7 +221,7 @@ public class Main {
             garcom = buscarGarcomPorEmail(emailGarcom);
 
             if (garcom == null) {
-                System.out.println("Garçom não encontrado!");
+                System.out.println("\nGarçom não encontrado!");
             }
         } while (garcom == null);
 
@@ -224,7 +231,11 @@ public class Main {
     public static void removerMesa() {
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Digite o número da mesa: ");
+        for (Mesa m:BD_Mesa){
+            System.out.println("- " + m.getNumeroMesa());
+        }
+
+        System.out.print("\nDigite o número da mesa: ");
         int numero = sc.nextInt();
 
         for (Mesa mesa : BD_Mesa) {
@@ -232,7 +243,7 @@ public class Main {
                 BD_Mesa.remove(mesa);
                 mesa.getGarcomResponsavel().removeMesa(mesa);
 
-                System.out.println("Mesa removida com sucesso!");
+                System.out.println("\nMesa removida com sucesso!");
 
                 return;
             }
@@ -291,11 +302,11 @@ public class Main {
     }
 
     public static void imprimirInformacoesMesa(Mesa mesa) {
-        System.out.println("\nID: " + mesa.getCodigoMesa());
+        System.out.println("\nID Mesa: " + mesa.getCodigoMesa());
         System.out.println("Número: " + mesa.getNumeroMesa());
         System.out.println("Capacidade: " + mesa.getCapacidadeMaxima());
         System.out.println("Situação: " + mesa.getSituacao());
-        System.out.println("Garçom responsável: " + mesa.getGarcomResponsavel().getNome());
+        System.out.println("Nome do garçom responsável: " + mesa.getGarcomResponsavel().getNome());
     }
 
     public static void relatorioGeralMesas() {
@@ -387,7 +398,7 @@ public class Main {
         do {
             System.out.println();
             System.out.println("+---------------------------------+");
-            System.out.println("|     Opções de mesas             |");
+            System.out.println("|     Opções de garçom            |");
             System.out.println("+---------------------------------+");
             System.out.println("| 1. Cadastrar garçom             |");
             System.out.println("| 2. Remover                      |");
@@ -444,7 +455,7 @@ public class Main {
         System.out.println("+---------------------------------+");
         System.out.println("| 1. Masculino                    |");
         System.out.println("| 2. Feminino                     |");
-        System.out.println("| 2. Outro                        |");
+        System.out.println("| 3. Outro                        |");
         System.out.println("+---------------------------------+");
 
         int opcaoSexo = sc.nextInt();
@@ -471,18 +482,19 @@ public class Main {
         BD_Garcom.add(garcom);
         BD_Garcom_Auto_Increment++;
 
-        System.out.println("Garçom cadastrado com sucesso!");
+        System.out.println("\nGarçom cadastrado com sucesso!");
     }
 
     public static void imprimirInformacoesGarcom(Garcom garcom) {
-        System.out.println("\nID: " + garcom.getCodigoGarcom());
+        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        System.out.println("\nID Garçom: " + garcom.getCodigoGarcom());
         System.out.println("Nome: " + garcom.getNome());
         System.out.println("Data de nascimento: " + garcom.getDataNascimento());
         System.out.println("Email: " + garcom.getEmail());
         System.out.println("Telefone: " + garcom.getTelefone());
         System.out.println("CPF: " + garcom.getCpf());
         System.out.println("Sexo: " + garcom.getSexo());
-        System.out.println("Salario fixo: " + garcom.getSalariofixo());
+        System.out.println("Salario fixo: " + formatter.format(garcom.getSalariofixo()));
         System.out.println("Responsável por: " + getQuantidadeMesasGarcom(garcom) + " mesa(s)");
     }
 
@@ -495,12 +507,12 @@ public class Main {
         for (Garcom garcom : BD_Garcom) {
             if (garcom.getCpf().equals(cpf)) {
                 BD_Garcom.remove(garcom);
-                System.out.println("Garçom removido com sucesso!");
+                System.out.println("\nGarçom removido com sucesso!");
                 return;
             }
         }
 
-        System.out.println("Garçom não encontrado!");
+        System.out.println("\nGarçom não encontrado!");
     }
 
     public static void buscarGarcom() {
@@ -572,6 +584,17 @@ public class Main {
     public static Garcom buscarGarcomPorEmail(String email) {
         for (Garcom garcom : BD_Garcom) {
             if (garcom.getEmail().equals(email)) {
+                return garcom;
+            }
+        }
+
+        return null;
+
+    }
+
+    public static Garcom buscarGarcomPorId(int id) {
+        for (Garcom garcom : BD_Garcom) {
+            if (garcom.getCodigoGarcom() == id) {
                 return garcom;
             }
         }
