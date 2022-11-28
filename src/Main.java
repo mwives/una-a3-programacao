@@ -3,10 +3,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import domain.model.entities.Garcom;
+import domain.model.entities.Mesa;
+import domain.model.enums.SituacaoMesa;
 import infra.database.repositories.GarconsRepository;
-import model.entities.Garcom;
-import model.entities.Mesa;
-import model.enums.SituacaoMesa;
 import useCases.garcom.BuscarGarcomUseCase;
 import useCases.garcom.CadastrarGarcomUseCase;
 import useCases.garcom.GerarRelatorioGarcomUseCase;

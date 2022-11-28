@@ -3,8 +3,8 @@ package useCases.garcom;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+import domain.model.entities.Garcom;
 import infra.database.repositories.GarconsRepository;
-import model.entities.Garcom;
 
 public class RemoverGarcomUseCase {
   private GarconsRepository garconsRepository;

@@ -7,11 +7,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import domain.model.entities.Garcom;
+import domain.model.entities.Mesa;
+import domain.model.enums.Genero;
+import domain.model.enums.SituacaoMesa;
 import infra.database.connection.DbConnection;
-import model.entities.Garcom;
-import model.entities.Mesa;
-import model.enums.Genero;
-import model.enums.SituacaoMesa;
 
 public class MesasRepository {
   private Connection connection;

@@ -3,9 +3,9 @@ package useCases.garcom;
 import java.sql.SQLException;
 import java.util.List;
 
+import domain.model.entities.Garcom;
 import helpers.GarconsHelper;
 import infra.database.repositories.GarconsRepository;
-import model.entities.Garcom;
 
 public class GerarRelatorioGarcomUseCase {
   private GarconsRepository garconsRepository;

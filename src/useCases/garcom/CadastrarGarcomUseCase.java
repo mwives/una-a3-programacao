@@ -3,9 +3,9 @@ package useCases.garcom;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+import domain.model.entities.Garcom;
+import domain.model.enums.Genero;
 import infra.database.repositories.GarconsRepository;
-import model.entities.Garcom;
-import model.enums.Genero;
 
 public class CadastrarGarcomUseCase {
   private GarconsRepository garconsRepository;

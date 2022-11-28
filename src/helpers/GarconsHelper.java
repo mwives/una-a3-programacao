@@ -2,7 +2,7 @@ package helpers;
 
 import java.text.NumberFormat;
 
-import model.entities.Garcom;
+import domain.model.entities.Garcom;
 
 public class GarconsHelper {
   public static void imprimirInformacoesGarcom(Garcom garcom) {

@@ -1,6 +1,6 @@
-package model.entities;
+package domain.model.entities;
 
-import model.enums.SituacaoMesa;
+import domain.model.enums.SituacaoMesa;
 
 public class Mesa {
     private int codigoMesa;

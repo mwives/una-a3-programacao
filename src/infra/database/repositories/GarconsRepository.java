@@ -1,8 +1,6 @@
 package infra.database.repositories;
 
 import infra.database.connection.DbConnection;
-import model.entities.Garcom;
-import model.enums.Genero;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,6 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import domain.model.entities.Garcom;
+import domain.model.enums.Genero;
 
 public class GarconsRepository {
   private Connection connection;

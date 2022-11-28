@@ -1,9 +1,9 @@
-package model.entities;
+package domain.model.entities;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import model.enums.Genero;
+import domain.model.enums.Genero;
 
 public class Garcom {
     private int codigoGarcom;
