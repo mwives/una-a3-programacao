@@ -9,16 +9,16 @@ public class DbConnection {
 
     private static Connection connection;
 
-    private DbConnection() {
+    private DbConnection() throws Exception {
         try {
             connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Error ao conectar com o banco de dados");
+            throw new Exception("Error ao conectar com o banco de dados");
         }
     }
 
-    public static Connection getInstance() {
+    public static Connection getInstance() throws Exception {
         if (connection == null) {
             new DbConnection();
         }
@@ -27,7 +27,7 @@ public class DbConnection {
     }
 
     // Usado para testar conexão com o banco
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Connection instance = getInstance();
         System.out.println(instance);
     }

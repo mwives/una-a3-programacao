@@ -1,3 +1,4 @@
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -19,18 +20,28 @@ import useCases.garcom.RemoverGarcomUseCase;
 
 public class Main {
     // Garçons
-    static GarconsRepository garconsRepository = new GarconsRepository();
+    private GarconsRepository garconsRepository;
 
-    static BuscarGarcomUseCase buscarGarcomUseCase = new BuscarGarcomUseCase();
-    static CadastrarGarcomUseCase cadastrarGarcomUseCase = new CadastrarGarcomUseCase();
-    static GerarRelatorioGarcomUseCase gerarRelatorioGarcomUseCase = new GerarRelatorioGarcomUseCase();
-    static RemoverGarcomUseCase removerGarcomUseCase = new RemoverGarcomUseCase();
+    private BuscarGarcomUseCase buscarGarcomUseCase;
+    private CadastrarGarcomUseCase cadastrarGarcomUseCase;
+    private GerarRelatorioGarcomUseCase gerarRelatorioGarcomUseCase;
+    private RemoverGarcomUseCase removerGarcomUseCase;
 
     // Mesas
     static List<Mesa> BD_Mesa = new ArrayList<>();
     static int BD_Mesa_Auto_Increment = 1;
 
-    public static void main(String[] args) {
+    public Main() throws Exception {
+        // Garçons
+        this.garconsRepository = new GarconsRepository();
+
+        this.buscarGarcomUseCase = new BuscarGarcomUseCase();
+        this.cadastrarGarcomUseCase = new CadastrarGarcomUseCase();
+        this.gerarRelatorioGarcomUseCase = new GerarRelatorioGarcomUseCase();
+        this.removerGarcomUseCase = new RemoverGarcomUseCase();
+    }
+
+    public void main(String[] args) throws SQLException {
         Scanner sc = new Scanner(System.in);
 
         int opcao;
@@ -62,10 +73,12 @@ public class Main {
                     break;
             }
         } while (opcao != 0);
+
+        sc.close();
     }
 
     // Mesa
-    public static void opcoesMesas() {
+    public void opcoesMesas() throws SQLException {
         Scanner sc = new Scanner(System.in);
 
         int opcao;
@@ -114,10 +127,12 @@ public class Main {
                     break;
             }
         } while (opcao != 0);
+
+        sc.close();
     }
 
-    public static void cadastrarMesa() {
-        int quantidadeGarconsCadastrados = garconsRepository.countGarcons();
+    public void cadastrarMesa() throws SQLException {
+        int quantidadeGarconsCadastrados = this.garconsRepository.countGarcons();
 
         if (quantidadeGarconsCadastrados == 0) {
             System.out.println("\nPara cadastrar uma mesa, é preciso cadastrar um garçom!");
@@ -140,7 +155,7 @@ public class Main {
             System.out.print("\nDigite o email do garçom responsável: ");
             String emailGarcom = sc.next();
 
-            garcom = garconsRepository.findByEmail(emailGarcom);
+            garcom = this.garconsRepository.findByEmail(emailGarcom);
 
             if (garcom == null) {
                 System.out.println("\nGarçom não encontrado!");
@@ -153,9 +168,11 @@ public class Main {
         BD_Mesa_Auto_Increment++;
 
         System.out.println("\nMesa cadastrada com sucesso!");
+
+        sc.close();
     }
 
-    public static void atualizarSituacaoMesa() {
+    public void atualizarSituacaoMesa() {
         Scanner sc = new Scanner(System.in);
 
         System.out.print("Digite o número da mesa: ");
@@ -195,9 +212,11 @@ public class Main {
                 System.out.println("\nOpção inválida!");
                 break;
         }
+
+        sc.close();
     }
 
-    public static void atualizarGarcomResponsavel() {
+    public void atualizarGarcomResponsavel() throws SQLException {
         Scanner sc = new Scanner(System.in);
 
         System.out.print("Digite o número da mesa: ");
@@ -213,6 +232,7 @@ public class Main {
 
         if (mesaEncontrada == null) {
             System.out.println("Mesa não encontrada!");
+            sc.close();
             return;
         }
 
@@ -224,16 +244,18 @@ public class Main {
             System.out.print("Digite o email do garçom responsável: ");
             String emailGarcom = sc.next();
 
-            garcom = garconsRepository.findByEmail(emailGarcom);
+            garcom = this.garconsRepository.findByEmail(emailGarcom);
 
             if (garcom == null) {
                 System.out.println("\nGarçom não encontrado!");
             }
         } while (garcom == null);
+
+        sc.close();
     }
 
-    public static void listarEmailGarconsCadastrados() {
-        List<Garcom> garconsCadastrados = garconsRepository.findAll();
+    public void listarEmailGarconsCadastrados() throws SQLException {
+        List<Garcom> garconsCadastrados = this.garconsRepository.findAll();
 
         System.out.println("Garçons cadastrados:");
 
@@ -242,7 +264,7 @@ public class Main {
         }
     }
 
-    public static void removerMesa() {
+    public void removerMesa() {
         Scanner sc = new Scanner(System.in);
 
         for (Mesa m : BD_Mesa) {
@@ -259,14 +281,17 @@ public class Main {
 
                 System.out.println("\nMesa removida com sucesso!");
 
+                sc.close();
                 return;
             }
         }
 
         System.out.println("Mesa não encontrada!");
+
+        sc.close();
     }
 
-    public static void buscarMesaPeloNumero() {
+    public void buscarMesaPeloNumero() {
         Scanner sc = new Scanner(System.in);
 
         System.out.print("Digite o número da mesa: ");
@@ -275,14 +300,17 @@ public class Main {
         for (Mesa mesa : BD_Mesa) {
             if (mesa.getNumeroMesa() == numero) {
                 imprimirInformacoesMesa(mesa);
+                sc.close();
                 return;
             }
         }
 
         System.out.println("\nNenhuma mesa encontrada para este número!");
+
+        sc.close();
     }
 
-    public static void opcoesRelatoriosMesa() {
+    public void opcoesRelatoriosMesa() throws SQLException {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("+---------------------------------+");
@@ -312,9 +340,11 @@ public class Main {
                 System.out.println("\nOpção inválida!");
                 break;
         }
+
+        sc.close();
     }
 
-    public static void imprimirInformacoesMesa(Mesa mesa) {
+    public void imprimirInformacoesMesa(Mesa mesa) {
         System.out.println("\nID Mesa: " + mesa.getCodigoMesa());
         System.out.println("Número: " + mesa.getNumeroMesa());
         System.out.println("Capacidade: " + mesa.getCapacidadeMaxima());
@@ -322,13 +352,13 @@ public class Main {
         System.out.println("Nome do garçom responsável: " + mesa.getGarcomResponsavel().getNome());
     }
 
-    public static void relatorioGeralMesas() {
+    public void relatorioGeralMesas() {
         for (Mesa mesa : BD_Mesa) {
             imprimirInformacoesMesa(mesa);
         }
     }
 
-    public static void buscarMesasLivres() {
+    public void buscarMesasLivres() {
         boolean mesaEncontrada = false;
 
         for (Mesa mesa : BD_Mesa) {
@@ -343,7 +373,7 @@ public class Main {
         }
     }
 
-    public static void buscarMesaPelaCapacidade() {
+    public void buscarMesaPelaCapacidade() {
         Scanner sc = new Scanner(System.in);
 
         System.out.print("Digite a capacidade da mesa: ");
@@ -361,9 +391,11 @@ public class Main {
         if (!mesaEncontrada) {
             System.out.println("\nNenhuma mesa encontrada para essa capacidade!");
         }
+
+        sc.close();
     }
 
-    public static void buscarMesaPorGarcom() {
+    public void buscarMesaPorGarcom() throws SQLException {
         Scanner sc = new Scanner(System.in);
 
         Garcom garcom;
@@ -373,10 +405,11 @@ public class Main {
         System.out.print("Digite o email do garçom: ");
         String emailGarcom = sc.next();
 
-        garcom = garconsRepository.findByEmail(emailGarcom);
+        garcom = this.garconsRepository.findByEmail(emailGarcom);
 
         if (garcom == null) {
             System.out.println("\nNenhuma mesa encontrada para este garçom!");
+            sc.close();
             return;
         }
 
@@ -388,10 +421,12 @@ public class Main {
                 imprimirInformacoesMesa(mesa);
             }
         }
+
+        sc.close();
     }
 
     // Garcom
-    public static void opcoesGarcom() {
+    public void opcoesGarcom() throws SQLException {
         Scanner sc = new Scanner(System.in);
 
         int opcao;
@@ -432,5 +467,7 @@ public class Main {
                     break;
             }
         } while (opcao != 0);
+
+        sc.close();
     }
 }

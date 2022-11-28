@@ -1,5 +1,6 @@
 package useCases.garcom;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import infra.database.repositories.GarconsRepository;
@@ -8,11 +9,11 @@ import model.entities.Garcom;
 public class RemoverGarcomUseCase {
   private GarconsRepository garconsRepository;
 
-  public RemoverGarcomUseCase() {
+  public RemoverGarcomUseCase() throws Exception {
     this.garconsRepository = new GarconsRepository();
   }
 
-  public void handle() {
+  public void handle() throws SQLException {
     Scanner sc = new Scanner(System.in);
 
     System.out.print("Digite o CPF do garçom: ");

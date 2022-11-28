@@ -1,5 +1,6 @@
 package useCases.garcom;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import helpers.GarconsHelper;
@@ -9,11 +10,11 @@ import model.entities.Garcom;
 public class GerarRelatorioGarcomUseCase {
   private GarconsRepository garconsRepository;
 
-  public GerarRelatorioGarcomUseCase() {
+  public GerarRelatorioGarcomUseCase() throws Exception {
     this.garconsRepository = new GarconsRepository();
   }
 
-  public void handle() {
+  public void handle() throws SQLException {
     List<Garcom> garcons = garconsRepository.findAll();
 
     if (garcons.isEmpty()) {

@@ -14,15 +14,17 @@ import java.util.List;
 public class GarconsRepository {
   private Connection connection;
 
-  public GarconsRepository() {
+  public GarconsRepository() throws Exception {
     this.connection = DbConnection.getInstance();
   }
 
-  public void create(Garcom garcom) {
+  public void create(Garcom garcom) throws SQLException {
+    PreparedStatement statement = null;
+
     try {
       String sql = "INSERT INTO garcons (nome, data_nascimento, email, telefone, cpf, sexo, salario_fixo) VALUES (?, ?, ?, ?, ?, ?, ?);";
 
-      PreparedStatement statement = connection.prepareStatement(sql);
+      statement = connection.prepareStatement(sql);
 
       statement.setString(1, garcom.getNome());
       statement.setString(2, garcom.getDataNascimento());
@@ -36,14 +38,20 @@ public class GarconsRepository {
     } catch (Exception e) {
       e.printStackTrace();
       System.out.println("Error ao criar garçom");
+    } finally {
+      if (statement != null) {
+        statement.close();
+      }
     }
   }
 
-  public List<Garcom> findAll() {
+  public List<Garcom> findAll() throws SQLException {
+    PreparedStatement statement = null;
+
     try {
       String sql = "SELECT * FROM garcons;";
 
-      PreparedStatement statement = connection.prepareStatement(sql);
+      statement = connection.prepareStatement(sql);
 
       ResultSet resultSet = statement.executeQuery();
 
@@ -58,16 +66,20 @@ public class GarconsRepository {
     } catch (Exception e) {
       e.printStackTrace();
       System.out.println("Error ao listar garçons");
+    } finally {
+      statement.close();
     }
 
     return null;
   }
 
-  public Garcom findByCpf(String cpf) {
+  public Garcom findByCpf(String cpf) throws SQLException {
+    PreparedStatement statement = null;
+
     try {
       String sql = "SELECT * FROM garcons WHERE cpf = ?;";
 
-      PreparedStatement statement = connection.prepareStatement(sql);
+      statement = connection.prepareStatement(sql);
 
       statement.setString(1, cpf);
 
@@ -80,16 +92,22 @@ public class GarconsRepository {
     } catch (Exception e) {
       e.printStackTrace();
       System.out.println("Error ao buscar garçom");
+    } finally {
+      if (statement != null) {
+        statement.close();
+      }
     }
 
     return null;
   }
 
-  public Garcom findByEmail(String email) {
+  public Garcom findByEmail(String email) throws SQLException {
+    PreparedStatement statement = null;
+
     try {
       String sql = "SELECT * FROM garcons WHERE email = ?;";
 
-      PreparedStatement statement = connection.prepareStatement(sql);
+      statement = connection.prepareStatement(sql);
 
       statement.setString(1, email);
 
@@ -102,6 +120,10 @@ public class GarconsRepository {
     } catch (Exception e) {
       e.printStackTrace();
       System.out.println("Error ao buscar garçom");
+    } finally {
+      if (statement != null) {
+        statement.close();
+      }
     }
 
     return null;
@@ -131,11 +153,13 @@ public class GarconsRepository {
     return garcom;
   }
 
-  public int countGarcons() {
+  public int countGarcons() throws SQLException {
+    PreparedStatement statement = null;
+
     try {
       String sql = "SELECT COUNT(*) AS total_garcons FROM garcons;";
 
-      PreparedStatement statement = connection.prepareStatement(sql);
+      statement = connection.prepareStatement(sql);
 
       ResultSet result = statement.executeQuery();
 
@@ -145,16 +169,22 @@ public class GarconsRepository {
     } catch (Exception e) {
       e.printStackTrace();
       System.out.println("Error ao contar garçons");
+    } finally {
+      if (statement != null) {
+        statement.close();
+      }
     }
 
     return 0;
   }
 
-  public int countMesasResponsavel(int codigoGarcom) {
+  public int countMesasResponsavel(int codigoGarcom) throws SQLException {
+    PreparedStatement statement = null;
+
     try {
       String sql = "SELECT COUNT(*) AS total_mesas FROM mesas WHERE codigo_garcom = ?;";
 
-      PreparedStatement statement = connection.prepareStatement(sql);
+      statement = connection.prepareStatement(sql);
 
       statement.setInt(1, codigoGarcom);
 
@@ -166,16 +196,22 @@ public class GarconsRepository {
     } catch (Exception e) {
       e.printStackTrace();
       System.out.println("Error ao buscar garçom");
+    } finally {
+      if (statement != null) {
+        statement.close();
+      }
     }
 
     return 0;
   }
 
-  public void update(Garcom garcom) {
+  public void update(Garcom garcom) throws SQLException {
+    PreparedStatement statement = null;
+
     try {
       String sql = "UPDATE garcons SET nome = ?, data_nascimento = ?, email = ?, telefone = ?, cpf = ?, sexo = ?, salario_fixo = ? WHERE codigo_garcom = ?;";
 
-      PreparedStatement statement = connection.prepareStatement(sql);
+      statement = connection.prepareStatement(sql);
 
       statement.setString(1, garcom.getNome());
       statement.setString(2, garcom.getDataNascimento());
@@ -190,14 +226,19 @@ public class GarconsRepository {
     } catch (Exception e) {
       e.printStackTrace();
       System.out.println("Error ao atualizar garçom");
+    } finally {
+      if (statement != null) {
+        statement.close();
+      }
     }
   }
 
-  public void delete(int codigoGarcom) {
+  public void delete(int codigoGarcom) throws SQLException {
+    PreparedStatement statement = null;
     try {
       String sql = "DELETE FROM garcons WHERE codigo_garcom = ?;";
 
-      PreparedStatement statement = connection.prepareStatement(sql);
+      statement = connection.prepareStatement(sql);
 
       statement.setInt(1, codigoGarcom);
 
@@ -205,6 +246,10 @@ public class GarconsRepository {
     } catch (Exception e) {
       e.printStackTrace();
       System.out.println("Error ao deletar garçom");
+    } finally {
+      if (statement != null) {
+        statement.close();
+      }
     }
   }
 }

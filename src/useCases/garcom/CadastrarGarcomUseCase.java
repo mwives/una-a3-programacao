@@ -1,5 +1,6 @@
 package useCases.garcom;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import infra.database.repositories.GarconsRepository;
@@ -9,11 +10,11 @@ import model.enums.Genero;
 public class CadastrarGarcomUseCase {
   private GarconsRepository garconsRepository;
 
-  public CadastrarGarcomUseCase() {
+  public CadastrarGarcomUseCase() throws Exception {
     this.garconsRepository = new GarconsRepository();
   }
 
-  public void handle() {
+  public void handle() throws SQLException {
     Scanner sc = new Scanner(System.in);
 
     System.out.print("\nDigite o nome: ");

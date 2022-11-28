@@ -1,5 +1,6 @@
 package useCases.garcom;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import helpers.GarconsHelper;
@@ -9,11 +10,11 @@ import model.entities.Garcom;
 public class BuscarGarcomUseCase {
     GarconsRepository garconsRepository;
 
-    public BuscarGarcomUseCase() {
+    public BuscarGarcomUseCase() throws Exception {
         this.garconsRepository = new GarconsRepository();
     }
 
-    public void handle() {
+    public void handle() throws SQLException {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("+---------------------------------+");
@@ -39,7 +40,7 @@ public class BuscarGarcomUseCase {
         sc.close();
     }
 
-    private void opcaoBuscarGarcomPorCpf() {
+    private void opcaoBuscarGarcomPorCpf() throws SQLException {
         Scanner sc = new Scanner(System.in);
 
         System.out.print("\nDigite o CPF: ");
@@ -56,7 +57,7 @@ public class BuscarGarcomUseCase {
         sc.close();
     }
 
-    private void buscarGarcomPorEmail() {
+    private void buscarGarcomPorEmail() throws SQLException {
         Scanner sc = new Scanner(System.in);
 
         System.out.print("\nDigite o email: ");

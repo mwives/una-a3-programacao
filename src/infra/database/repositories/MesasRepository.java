@@ -16,7 +16,7 @@ import model.enums.SituacaoMesa;
 public class MesasRepository {
   private Connection connection;
 
-  public MesasRepository() {
+  public MesasRepository() throws Exception {
     this.connection = DbConnection.getInstance();
   }
 
