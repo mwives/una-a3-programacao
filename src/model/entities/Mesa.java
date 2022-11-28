@@ -1,15 +1,29 @@
+package model.entities;
+
+import model.enums.SituacaoMesa;
+
 public class Mesa {
     private int codigoMesa;
     private int numeroMesa;
     private SituacaoMesa situacao;
     private int capacidadeMaxima;
+    private int codigoGarcom;
     private Garcom garcomResponsavel;
 
-    public Mesa(int codigoMesa, int numeroMesa, int capacidadeMaxima, Garcom garcomResponsavel) {
+    public Mesa(int codigoMesa, int numeroMesa, int capacidadeMaxima, int codigoGarcom, Garcom garcomResponsavel) {
         this.codigoMesa = codigoMesa;
         this.numeroMesa = numeroMesa;
         this.situacao = SituacaoMesa.LIVRE;
         this.capacidadeMaxima = capacidadeMaxima;
+        this.codigoGarcom = codigoGarcom;
+        this.garcomResponsavel = garcomResponsavel;
+    }
+
+    public Mesa(int numeroMesa, int capacidadeMaxima, Garcom garcomResponsavel) {
+        this.numeroMesa = numeroMesa;
+        this.situacao = SituacaoMesa.LIVRE;
+        this.capacidadeMaxima = capacidadeMaxima;
+        this.codigoGarcom = garcomResponsavel.getCodigoGarcom();
         this.garcomResponsavel = garcomResponsavel;
     }
 
@@ -43,6 +57,14 @@ public class Mesa {
 
     public void setCapacidadeMaxima(int capacidadeMaxima) {
         this.capacidadeMaxima = capacidadeMaxima;
+    }
+
+    public int getCodigoGarcom() {
+        return codigoGarcom;
+    }
+
+    public void setCodigoGarcom(int codigoGarcom) {
+        this.codigoGarcom = codigoGarcom;
     }
 
     public Garcom getGarcomResponsavel() {
