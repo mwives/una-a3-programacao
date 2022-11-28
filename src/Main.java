@@ -3,18 +3,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import infra.database.repositories.GarconsRepository;
+import model.entities.Garcom;
+import model.entities.Mesa;
+import model.enums.Genero;
+import model.enums.SituacaoMesa;
+
 /*
-- Ives Martins Watanabe/ 202220670
-- Patrick Ferreira Rezende Dezuani/202220304
-- Samuel Sales Coelho Lima/202210219
+- Ives Martins Watanabe / 202220670
+- Patrick Ferreira Rezende Dezuani / 202220304
+- Samuel Sales Coelho Lima / 202210219
  */
 
 public class Main {
     static List<Mesa> BD_Mesa = new ArrayList<>();
     static int BD_Mesa_Auto_Increment = 1;
 
-    static List<Garcom> BD_Garcom = new ArrayList<>();
-    static int BD_Garcom_Auto_Increment = 1;
+    static GarconsRepository garconsRepository = new GarconsRepository();
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -80,7 +85,7 @@ public class Main {
                 case 2:
                     atualizarSituacaoMesa();
                     break;
-                case 3: 
+                case 3:
                     atualizarGarcomResponsavel();
                     break;
                 case 4:
@@ -103,7 +108,9 @@ public class Main {
     }
 
     public static void cadastrarMesa() {
-        if (BD_Garcom.isEmpty()) {
+        int quantidadeGarconsCadastrados = garconsRepository.countGarcons();
+
+        if (quantidadeGarconsCadastrados == 0) {
             System.out.println("\nPara cadastrar uma mesa, é preciso cadastrar um garçom!");
             return;
         }
@@ -119,28 +126,22 @@ public class Main {
         Garcom garcom;
 
         do {
-            System.out.println("\nGarcons cadastrados:");
-
-            for (Garcom g : BD_Garcom) {
-                imprimirInformacoesGarcom(g);
-            }
+            listarEmailGarconsCadastrados();
 
             System.out.print("\nDigite o ID do garçom responsável: ");
             int idGarcom = sc.nextInt();
 
-            garcom = buscarGarcomPorId(idGarcom);
+            garcom = garconsRepository.findByEmail(emailGarcom);
 
             if (garcom == null) {
                 System.out.println("\nGarçom não encontrado!");
             }
         } while (garcom == null);
 
-
-        Mesa mesa = new Mesa(BD_Mesa_Auto_Increment, numero, capacidade, garcom);
+        Mesa mesa = new Mesa(numero, capacidade, garcom);
 
         BD_Mesa.add(mesa);
         BD_Mesa_Auto_Increment++;
-        garcom.addMesa(mesa);
 
         System.out.println("\nMesa cadastrada com sucesso!");
     }
@@ -209,29 +210,33 @@ public class Main {
         Garcom garcom;
 
         do {
-            System.out.println("Garcons cadastrados:");
-
-            for (Garcom g : BD_Garcom) {
-                System.out.println("- " + g.getEmail());
-            }
+            listarEmailGarconsCadastrados();
 
             System.out.print("Digite o email do garçom responsável: ");
             String emailGarcom = sc.next();
 
-            garcom = buscarGarcomPorEmail(emailGarcom);
+            garcom = garconsRepository.findByEmail(emailGarcom);
 
             if (garcom == null) {
                 System.out.println("\nGarçom não encontrado!");
             }
         } while (garcom == null);
+    }
 
-        mesaEncontrada.setGarcomResponsavel(garcom);
+    public static void listarEmailGarconsCadastrados() {
+        List<Garcom> garconsCadastrados = garconsRepository.findAll();
+
+        System.out.println("Garçons cadastrados:");
+
+        for (Garcom g : garconsCadastrados) {
+            System.out.println("- " + g.getEmail());
+        }
     }
 
     public static void removerMesa() {
         Scanner sc = new Scanner(System.in);
 
-        for (Mesa m:BD_Mesa){
+        for (Mesa m : BD_Mesa) {
             System.out.println("- " + m.getNumeroMesa());
         }
 
@@ -270,7 +275,6 @@ public class Main {
 
     public static void opcoesRelatoriosMesa() {
         Scanner sc = new Scanner(System.in);
-
 
         System.out.println("+---------------------------------+");
         System.out.println("| 1. Geral                        |");
@@ -355,24 +359,17 @@ public class Main {
 
         Garcom garcom;
 
-        do {
-            System.out.println("\nGarçons cadastrados:");
+        listarEmailGarconsCadastrados();
 
-            for (Garcom g : BD_Garcom) {
-                System.out.println("- " + g.getEmail());
-            }
+        System.out.print("Digite o email do garçom: ");
+        String emailGarcom = sc.next();
 
-            System.out.print("Digite o email do garçom: ");
-            String emailGarcom = sc.next();
+        garcom = garconsRepository.findByEmail(emailGarcom);
 
-            garcom = buscarGarcomPorEmail(emailGarcom);
-
-            if (garcom == null) {
-                System.out.println("\nGarçom não encontrado!");
-            }
-        } while (garcom == null);
-
-        boolean mesaEncontrada = false;
+        if (garcom == null) {
+            System.out.println("\nNenhuma mesa encontrada para este garçom!");
+            return;
+        }
 
         for (Mesa mesa : BD_Mesa) {
             boolean garcomResponsavelPelaMesa = mesa.getGarcomResponsavel().equals(garcom);
@@ -380,12 +377,7 @@ public class Main {
 
             if (garcomResponsavelPelaMesa && mesaOcupada) {
                 imprimirInformacoesMesa(mesa);
-                mesaEncontrada = true;
             }
-        }
-
-        if (!mesaEncontrada) {
-            System.out.println("\nNenhuma mesa encontrada para este garçom!");
         }
     }
 
@@ -439,7 +431,7 @@ public class Main {
         System.out.print("\nDigite o nome: ");
         String nome = sc.nextLine();
 
-        System.out.print("Digite a data de nascimento: ");
+        System.out.print("Digite a data de nascimento (formato yyyy-mm-dd): ");
         String dataNascimento = sc.nextLine();
 
         System.out.print("Digite o email: ");
@@ -461,7 +453,7 @@ public class Main {
         int opcaoSexo = sc.nextInt();
 
         Genero sexo;
-        
+
         switch (opcaoSexo) {
             case 1:
                 sexo = Genero.MASCULINO;
@@ -477,10 +469,9 @@ public class Main {
         System.out.print("Digite o salario fixo: ");
         double salarioFixo = sc.nextDouble();
 
-        Garcom garcom = new Garcom(BD_Garcom_Auto_Increment, nome, dataNascimento, email, telefone, cpf, sexo, salarioFixo);
+        Garcom garcom = new Garcom(nome, dataNascimento, email, telefone, cpf, sexo, salarioFixo);
 
-        BD_Garcom.add(garcom);
-        BD_Garcom_Auto_Increment++;
+        garconsRepository.create(garcom);
 
         System.out.println("\nGarçom cadastrado com sucesso!");
     }
@@ -504,12 +495,12 @@ public class Main {
         System.out.print("Digite o CPF do garçom: ");
         String cpf = sc.nextLine();
 
-        for (Garcom garcom : BD_Garcom) {
-            if (garcom.getCpf().equals(cpf)) {
-                BD_Garcom.remove(garcom);
-                System.out.println("\nGarçom removido com sucesso!");
-                return;
-            }
+        Garcom garcom = garconsRepository.findByCpf(cpf);
+
+        if (garcom != null) {
+            garconsRepository.delete(garcom.getCodigoGarcom());
+            System.out.println("\nGarçom removido com sucesso!");
+            return;
         }
 
         System.out.println("\nGarçom não encontrado!");
@@ -531,7 +522,7 @@ public class Main {
                 opcaoBuscarGarcomPorCpf();
                 break;
             case 2:
-                opcaoBuscarGarcomPorEmail();
+                buscarGarcomPorEmail();
                 break;
             default:
                 System.out.println("\nOpção inválida!");
@@ -545,77 +536,47 @@ public class Main {
         System.out.print("\nDigite o CPF: ");
         String cpf = sc.nextLine();
 
-        Garcom garcom = buscarGarcomPorCpf(cpf);
+        Garcom garcom = garconsRepository.findByCpf(cpf);
 
         if (garcom != null) {
             imprimirInformacoesGarcom(garcom);
             return;
         }
-        
+
         System.out.println("\nGarçom não encontrado!");
     }
 
-    public static Garcom buscarGarcomPorCpf(String cpf) {
-        for (Garcom garcom : BD_Garcom) {
-            if (garcom.getCpf().equals(cpf)) {
-                return garcom;
-            }
-        }
-
-        return null;
-    }
-
-    public static void opcaoBuscarGarcomPorEmail() {
+    public static void buscarGarcomPorEmail() {
         Scanner sc = new Scanner(System.in);
 
         System.out.print("\nDigite o email: ");
         String email = sc.nextLine();
 
-        Garcom garcom = buscarGarcomPorEmail(email);
+        Garcom garcom = garconsRepository.findByEmail(email);
 
         if (garcom != null) {
             imprimirInformacoesGarcom(garcom);
             return;
         }
-        
+
         System.out.println("\nGarçom não encontrado!");
     }
 
-    public static Garcom buscarGarcomPorEmail(String email) {
-        for (Garcom garcom : BD_Garcom) {
-            if (garcom.getEmail().equals(email)) {
-                return garcom;
-            }
-        }
-
-        return null;
-
-    }
-
-    public static Garcom buscarGarcomPorId(int id) {
-        for (Garcom garcom : BD_Garcom) {
-            if (garcom.getCodigoGarcom() == id) {
-                return garcom;
-            }
-        }
-
-        return null;
-    }
-
     public static void relatorioGarcom() {
-        for (Garcom garcom : BD_Garcom) {
+        List<Garcom> garcons = garconsRepository.findAll();
+
+        if (garcons.isEmpty()) {
+            System.out.println("\nNão há garçons cadastrados!");
+            return;
+        }
+
+        for (Garcom garcom : garcons) {
             imprimirInformacoesGarcom(garcom);
         }
     }
 
     private static int getQuantidadeMesasGarcom(Garcom garcom) {
-        int quantidadeMesas = 0;
-
-        for (Mesa mesa : BD_Mesa) {
-            if (mesa.getGarcomResponsavel().equals(garcom)) {
-                quantidadeMesas++;
-            }
-        }
+        int quantidadeMesas = garconsRepository.countMesasResponsavel(garcom.getCodigoGarcom());
 
         return quantidadeMesas;
     }
