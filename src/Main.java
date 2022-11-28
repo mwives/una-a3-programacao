@@ -128,8 +128,8 @@ public class Main {
         do {
             listarEmailGarconsCadastrados();
 
-            System.out.print("\nDigite o ID do garçom responsável: ");
-            int idGarcom = sc.nextInt();
+            System.out.print("\nDigite o email do garçom responsável: ");
+            String emailGarcom = sc.next();
 
             garcom = garconsRepository.findByEmail(emailGarcom);
 
