@@ -1,4 +1,3 @@
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -6,20 +5,30 @@ import java.util.Scanner;
 import infra.database.repositories.GarconsRepository;
 import model.entities.Garcom;
 import model.entities.Mesa;
-import model.enums.Genero;
 import model.enums.SituacaoMesa;
+import useCases.garcom.BuscarGarcomUseCase;
+import useCases.garcom.CadastrarGarcomUseCase;
+import useCases.garcom.GerarRelatorioGarcomUseCase;
+import useCases.garcom.RemoverGarcomUseCase;
 
-/*
-- Ives Martins Watanabe / 202220670
-- Patrick Ferreira Rezende Dezuani / 202220304
-- Samuel Sales Coelho Lima / 202210219
+/**
+ * Ives Martins Watanabe / 202220670
+ * Patrick Ferreira Rezende Dezuani / 202220304
+ * Samuel Sales Coelho Lima / 202210219
  */
 
 public class Main {
+    // Garçons
+    static GarconsRepository garconsRepository = new GarconsRepository();
+
+    static BuscarGarcomUseCase buscarGarcomUseCase = new BuscarGarcomUseCase();
+    static CadastrarGarcomUseCase cadastrarGarcomUseCase = new CadastrarGarcomUseCase();
+    static GerarRelatorioGarcomUseCase gerarRelatorioGarcomUseCase = new GerarRelatorioGarcomUseCase();
+    static RemoverGarcomUseCase removerGarcomUseCase = new RemoverGarcomUseCase();
+
+    // Mesas
     static List<Mesa> BD_Mesa = new ArrayList<>();
     static int BD_Mesa_Auto_Increment = 1;
-
-    static GarconsRepository garconsRepository = new GarconsRepository();
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -404,16 +413,16 @@ public class Main {
 
             switch (opcao) {
                 case 1:
-                    cadastrarGarcom();
+                    cadastrarGarcomUseCase.handle();
                     break;
                 case 2:
-                    removerGarcom();
+                    removerGarcomUseCase.handle();
                     break;
                 case 3:
-                    buscarGarcom();
+                    buscarGarcomUseCase.handle();
                     break;
                 case 4:
-                    relatorioGarcom();
+                    gerarRelatorioGarcomUseCase.handle();
                     break;
                 case 0:
                     System.out.println("\nVoltando...");
@@ -423,161 +432,5 @@ public class Main {
                     break;
             }
         } while (opcao != 0);
-    }
-
-    public static void cadastrarGarcom() {
-        Scanner sc = new Scanner(System.in);
-
-        System.out.print("\nDigite o nome: ");
-        String nome = sc.nextLine();
-
-        System.out.print("Digite a data de nascimento (formato yyyy-mm-dd): ");
-        String dataNascimento = sc.nextLine();
-
-        System.out.print("Digite o email: ");
-        String email = sc.nextLine();
-
-        System.out.print("Digite o telefone: ");
-        String telefone = sc.nextLine();
-
-        System.out.print("Digite o CPF: ");
-        String cpf = sc.nextLine();
-
-        System.out.println("Selecione uma opção de genero: ");
-        System.out.println("+---------------------------------+");
-        System.out.println("| 1. Masculino                    |");
-        System.out.println("| 2. Feminino                     |");
-        System.out.println("| 3. Outro                        |");
-        System.out.println("+---------------------------------+");
-
-        int opcaoSexo = sc.nextInt();
-
-        Genero sexo;
-
-        switch (opcaoSexo) {
-            case 1:
-                sexo = Genero.MASCULINO;
-                break;
-            case 2:
-                sexo = Genero.FEMININO;
-                break;
-            default:
-                sexo = Genero.OUTRO;
-                break;
-        }
-
-        System.out.print("Digite o salario fixo: ");
-        double salarioFixo = sc.nextDouble();
-
-        Garcom garcom = new Garcom(nome, dataNascimento, email, telefone, cpf, sexo, salarioFixo);
-
-        garconsRepository.create(garcom);
-
-        System.out.println("\nGarçom cadastrado com sucesso!");
-    }
-
-    public static void imprimirInformacoesGarcom(Garcom garcom) {
-        NumberFormat formatter = NumberFormat.getCurrencyInstance();
-        System.out.println("\nID Garçom: " + garcom.getCodigoGarcom());
-        System.out.println("Nome: " + garcom.getNome());
-        System.out.println("Data de nascimento: " + garcom.getDataNascimento());
-        System.out.println("Email: " + garcom.getEmail());
-        System.out.println("Telefone: " + garcom.getTelefone());
-        System.out.println("CPF: " + garcom.getCpf());
-        System.out.println("Sexo: " + garcom.getSexo());
-        System.out.println("Salario fixo: " + formatter.format(garcom.getSalariofixo()));
-        System.out.println("Responsável por: " + getQuantidadeMesasGarcom(garcom) + " mesa(s)");
-    }
-
-    public static void removerGarcom() {
-        Scanner sc = new Scanner(System.in);
-
-        System.out.print("Digite o CPF do garçom: ");
-        String cpf = sc.nextLine();
-
-        Garcom garcom = garconsRepository.findByCpf(cpf);
-
-        if (garcom != null) {
-            garconsRepository.delete(garcom.getCodigoGarcom());
-            System.out.println("\nGarçom removido com sucesso!");
-            return;
-        }
-
-        System.out.println("\nGarçom não encontrado!");
-    }
-
-    public static void buscarGarcom() {
-        Scanner sc = new Scanner(System.in);
-
-        System.out.println("+---------------------------------+");
-        System.out.println("| 1. Por CPF                      |");
-        System.out.println("| 2. Por Email                    |");
-        System.out.println("+---------------------------------+");
-
-        System.out.print("Digite a opção desejada: ");
-        int opcao = sc.nextInt();
-
-        switch (opcao) {
-            case 1:
-                opcaoBuscarGarcomPorCpf();
-                break;
-            case 2:
-                buscarGarcomPorEmail();
-                break;
-            default:
-                System.out.println("\nOpção inválida!");
-                break;
-        }
-    }
-
-    public static void opcaoBuscarGarcomPorCpf() {
-        Scanner sc = new Scanner(System.in);
-
-        System.out.print("\nDigite o CPF: ");
-        String cpf = sc.nextLine();
-
-        Garcom garcom = garconsRepository.findByCpf(cpf);
-
-        if (garcom != null) {
-            imprimirInformacoesGarcom(garcom);
-            return;
-        }
-
-        System.out.println("\nGarçom não encontrado!");
-    }
-
-    public static void buscarGarcomPorEmail() {
-        Scanner sc = new Scanner(System.in);
-
-        System.out.print("\nDigite o email: ");
-        String email = sc.nextLine();
-
-        Garcom garcom = garconsRepository.findByEmail(email);
-
-        if (garcom != null) {
-            imprimirInformacoesGarcom(garcom);
-            return;
-        }
-
-        System.out.println("\nGarçom não encontrado!");
-    }
-
-    public static void relatorioGarcom() {
-        List<Garcom> garcons = garconsRepository.findAll();
-
-        if (garcons.isEmpty()) {
-            System.out.println("\nNão há garçons cadastrados!");
-            return;
-        }
-
-        for (Garcom garcom : garcons) {
-            imprimirInformacoesGarcom(garcom);
-        }
-    }
-
-    private static int getQuantidadeMesasGarcom(Garcom garcom) {
-        int quantidadeMesas = garconsRepository.countMesasResponsavel(garcom.getCodigoGarcom());
-
-        return quantidadeMesas;
     }
 }
