@@ -1,20 +1,26 @@
 package useCases.garcom;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 import domain.model.entities.Garcom;
+import helpers.GarconsHelper;
 import infra.database.repositories.GarconsRepository;
 
 public class RemoverGarcomUseCase {
   private GarconsRepository garconsRepository;
+  private Scanner sc;
 
-  public RemoverGarcomUseCase() throws Exception {
-    this.garconsRepository = new GarconsRepository();
+  public RemoverGarcomUseCase(GarconsRepository garconsRepository, Scanner sc) throws Exception {
+    this.garconsRepository = garconsRepository;
+    this.sc = sc;
   }
 
   public void handle() throws SQLException {
-    Scanner sc = new Scanner(System.in);
+    List<Garcom> garconsCadastrados = this.garconsRepository.findAll();
+
+    GarconsHelper.listarCpfGarconsCadastrados(garconsCadastrados);
 
     System.out.print("Digite o CPF do garçom: ");
     String cpf = sc.nextLine();
@@ -27,7 +33,5 @@ public class RemoverGarcomUseCase {
     } else {
       System.out.println("\nGarçom não encontrado!");
     }
-
-    sc.close();
   }
 }

@@ -10,8 +10,8 @@ import infra.database.repositories.GarconsRepository;
 public class BuscarGarcomUseCase {
     GarconsRepository garconsRepository;
 
-    public BuscarGarcomUseCase() throws Exception {
-        this.garconsRepository = new GarconsRepository();
+    public BuscarGarcomUseCase(GarconsRepository garconsRepository) throws Exception {
+        this.garconsRepository = garconsRepository;
     }
 
     public void handle() throws SQLException {
@@ -24,25 +24,22 @@ public class BuscarGarcomUseCase {
 
         System.out.print("Digite a opção desejada: ");
         int opcao = sc.nextInt();
+        sc.nextLine();
 
         switch (opcao) {
             case 1:
-                opcaoBuscarGarcomPorCpf();
+                opcaoBuscarGarcomPorCpf(sc);
                 break;
             case 2:
-                buscarGarcomPorEmail();
+                buscarGarcomPorEmail(sc);
                 break;
             default:
                 System.out.println("\nOpção inválida!");
                 break;
         }
-
-        sc.close();
     }
 
-    private void opcaoBuscarGarcomPorCpf() throws SQLException {
-        Scanner sc = new Scanner(System.in);
-
+    private void opcaoBuscarGarcomPorCpf(Scanner sc) throws SQLException {
         System.out.print("\nDigite o CPF: ");
         String cpf = sc.nextLine();
 
@@ -53,13 +50,9 @@ public class BuscarGarcomUseCase {
         } else {
             System.out.println("\nGarçom não encontrado!");
         }
-
-        sc.close();
     }
 
-    private void buscarGarcomPorEmail() throws SQLException {
-        Scanner sc = new Scanner(System.in);
-
+    private void buscarGarcomPorEmail(Scanner sc) throws SQLException {
         System.out.print("\nDigite o email: ");
         String email = sc.nextLine();
 
@@ -70,7 +63,5 @@ public class BuscarGarcomUseCase {
         } else {
             System.out.println("\nGarçom não encontrado!");
         }
-
-        sc.close();
     }
 }

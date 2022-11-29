@@ -10,8 +10,8 @@ import infra.database.repositories.GarconsRepository;
 public class GerarRelatorioGarcomUseCase {
   private GarconsRepository garconsRepository;
 
-  public GerarRelatorioGarcomUseCase() throws Exception {
-    this.garconsRepository = new GarconsRepository();
+  public GerarRelatorioGarcomUseCase(GarconsRepository garconsRepository) throws Exception {
+    this.garconsRepository = garconsRepository;
   }
 
   public void handle() throws SQLException {

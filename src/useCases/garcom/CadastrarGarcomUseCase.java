@@ -9,14 +9,14 @@ import infra.database.repositories.GarconsRepository;
 
 public class CadastrarGarcomUseCase {
   private GarconsRepository garconsRepository;
+  private Scanner sc;
 
-  public CadastrarGarcomUseCase() throws Exception {
-    this.garconsRepository = new GarconsRepository();
+  public CadastrarGarcomUseCase(GarconsRepository garconsRepository, Scanner sc) throws Exception {
+    this.garconsRepository = garconsRepository;
+    this.sc = sc;
   }
 
   public void handle() throws SQLException {
-    Scanner sc = new Scanner(System.in);
-
     System.out.print("\nDigite o nome: ");
     String nome = sc.nextLine();
 
@@ -31,6 +31,13 @@ public class CadastrarGarcomUseCase {
 
     System.out.print("Digite o CPF: ");
     String cpf = sc.nextLine();
+
+    Garcom garcomJaCadastrado = garconsRepository.findByCpf(cpf);
+
+    if (garcomJaCadastrado != null) {
+      System.out.println("\nGarçom com este CPF já cadastrado!");
+      return;
+    }
 
     System.out.println("Selecione uma opção de genero: ");
     System.out.println("+---------------------------------+");
@@ -63,7 +70,5 @@ public class CadastrarGarcomUseCase {
     garconsRepository.create(garcom);
 
     System.out.println("\nGarçom cadastrado com sucesso!");
-
-    sc.close();
   }
 }
