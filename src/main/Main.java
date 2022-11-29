@@ -1,4 +1,4 @@
-package Main;
+package main;
 
 /**
  * Ives Martins Watanabe / 202220670

@@ -1,12 +1,11 @@
-package Main;
+package main;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import domain.model.entities.Garcom;
-import domain.model.entities.Mesa;
+import domain.model.entities.*;
 import domain.model.enums.SituacaoMesa;
 import infra.database.repositories.*;
 import useCases.garcom.*;
