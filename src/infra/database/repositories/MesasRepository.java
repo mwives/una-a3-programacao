@@ -20,6 +20,32 @@ public class MesasRepository {
     this.connection = DbConnection.getInstance();
   }
 
+  public void create (Mesa mesa, Garcom garcom) throws SQLException {
+    PreparedStatement statement = null ;
+    try {
+      String sql = "INSERT INTO mesas (numero_mesa, situacao, capacidade_maxima,codigo_garcom) VALUES (?, ?, ?, ? );";
+      statement = connection.prepareStatement(sql);
+
+      statement.setInt(1,mesa.getNumeroMesa());
+      statement.setString(2,mesa.getSituacao().toString());
+      statement.setInt(3,mesa.getCapacidadeMaxima());
+      statement.setInt(4,garcom.getCodigoGarcom());
+
+      statement.execute();
+
+
+    } catch (Exception e) {
+      e.printStackTrace();
+      System.out.println("Error ao criar mesa");
+    }
+    finally {
+      if (statement != null) {
+        statement.close();
+      }
+    }
+  }
+
+
   public List<Mesa> findAll() throws SQLException {
     PreparedStatement statement = null;
 
@@ -48,6 +74,32 @@ public class MesasRepository {
     }
 
     return null;
+  }
+  public Mesa findByNumeroMesa (int numeroMesa) throws SQLException {
+    PreparedStatement statement = null;
+
+    try {
+      String sql = "SELECT mesas.*, garcons.* FROM mesas INNER JOIN garcons ON mesas.codigo_garcom = garcons.codigo_garcom WHERE mesas.numero_mesa = ?;";
+
+      statement = connection.prepareStatement(sql);
+      statement.setInt(1, numeroMesa);
+      ResultSet resultSet = statement.executeQuery();
+
+      if (resultSet.next()) {
+        Mesa mesaEncontrada = mapMesa(resultSet);
+        return mesaEncontrada;
+      }
+
+
+    } catch (Exception e) {
+      e.printStackTrace();
+      System.out.println("Error ao encontrar mesa");
+    } finally {
+      if (statement != null) {
+        statement.close();
+      }
+    }
+    return null ;
   }
 
   public List<Mesa> findByGarcomId(int garcomId) throws SQLException {
@@ -145,4 +197,22 @@ public class MesasRepository {
 
     return mesa;
   }
-}
+
+  public void delete (int codigoMesa) throws SQLException {
+    PreparedStatement statement = null;
+    try {
+      String sql = "DELETE FROM mesas WHERE codigo_mesa = ?;";
+      statement = connection.prepareStatement(sql);
+      statement.setInt(1,codigoMesa);
+      statement.execute();
+    } catch (Exception e) {
+      e.printStackTrace();
+      System.out.println("Error ao deletar mesa");
+    } finally {
+      if (statement != null) {
+        statement.close();
+      }
+    }
+  }
+  }
+

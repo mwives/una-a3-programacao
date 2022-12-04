@@ -32,7 +32,7 @@ CREATE TABLE mesas(
   'OCUPADA',
   'RESERVADA') NOT NULL,
 	capacidade_maxima INT NOT NULL,
-	codigo_garcom INT NOT NULL,
+	codigo_garcom INT,
 	FOREIGN KEY (codigo_garcom) REFERENCES garcons(codigo_garcom) ON DELETE SET NULL
 );
 ```

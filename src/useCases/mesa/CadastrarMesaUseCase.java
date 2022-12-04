@@ -13,10 +13,12 @@ import infra.database.repositories.MesasRepository;
 public class CadastrarMesaUseCase {
   private MesasRepository mesasRepository;
   private GarconsRepository garconsRepository;
+  private Scanner sc;
 
-  public CadastrarMesaUseCase(MesasRepository mesasRepository, GarconsRepository garconsRepository) throws Exception {
+  public CadastrarMesaUseCase(MesasRepository mesasRepository, GarconsRepository garconsRepository,Scanner sc) throws Exception {
     this.mesasRepository = mesasRepository;
     this.garconsRepository = garconsRepository;
+    this.sc = sc ;
   }
 
   public void handle() throws SQLException {
@@ -26,8 +28,6 @@ public class CadastrarMesaUseCase {
       System.out.println("\nPara cadastrar uma mesa, é preciso cadastrar um garçom!");
       return;
     }
-
-    Scanner sc = new Scanner(System.in);
 
     System.out.print("\nDigite o número da mesa: ");
     int numero = sc.nextInt();
@@ -50,9 +50,8 @@ public class CadastrarMesaUseCase {
 
     Mesa mesa = new Mesa(numero, capacidade, garcom);
 
-    this.mesasRepository.create(mesa);
+    this.mesasRepository.create(mesa, garcom);
 
     System.out.println("\nMesa cadastrada com sucesso!");
-    sc.close();
   }
 }

@@ -24,6 +24,8 @@ public class Menu {
   private MesasRepository mesasRepository;
 
   private CadastrarMesaUseCase cadastrarMesaUseCase;
+  private RemoverMesaUseCase removerMesaUseCase;
+  private BuscarMesaPeloNumeroUseCase buscarMesaPeloNumeroUseCase;
 
   // Antigo! Deve ser removido
   static List<Mesa> BD_Mesa = new ArrayList<>();
@@ -35,7 +37,7 @@ public class Menu {
     // Garçons
     this.garconsRepository = new GarconsRepository();
 
-    this.buscarGarcomUseCase = new BuscarGarcomUseCase(garconsRepository);
+    this.buscarGarcomUseCase = new BuscarGarcomUseCase(garconsRepository,sc);
     this.cadastrarGarcomUseCase = new CadastrarGarcomUseCase(garconsRepository, sc);
     this.gerarRelatorioGarcomUseCase = new GerarRelatorioGarcomUseCase(garconsRepository);
     this.removerGarcomUseCase = new RemoverGarcomUseCase(garconsRepository, sc);
@@ -43,7 +45,9 @@ public class Menu {
     // Mesas
     this.mesasRepository = new MesasRepository();
 
-    this.cadastrarMesaUseCase = new CadastrarMesaUseCase(mesasRepository, garconsRepository);
+    this.cadastrarMesaUseCase = new CadastrarMesaUseCase(mesasRepository, garconsRepository, sc);
+    this.removerMesaUseCase = new RemoverMesaUseCase(mesasRepository,sc);
+    this.buscarMesaPeloNumeroUseCase = new BuscarMesaPeloNumeroUseCase(mesasRepository,sc) ;
   }
 
   public void show() throws SQLException {
@@ -154,10 +158,10 @@ public class Menu {
           atualizarGarcomResponsavel();
           break;
         case 4:
-          removerMesa();
+          this.removerMesaUseCase.handle();
           break;
         case 5:
-          buscarMesaPeloNumero();
+          this.buscarMesaPeloNumeroUseCase.handle();
           break;
         case 6:
           opcoesRelatoriosMesa();

@@ -8,14 +8,15 @@ import helpers.GarconsHelper;
 import infra.database.repositories.GarconsRepository;
 
 public class BuscarGarcomUseCase {
-    GarconsRepository garconsRepository;
+    private GarconsRepository garconsRepository;
+    private Scanner sc;
 
-    public BuscarGarcomUseCase(GarconsRepository garconsRepository) throws Exception {
+    public BuscarGarcomUseCase(GarconsRepository garconsRepository,Scanner sc) throws Exception {
         this.garconsRepository = garconsRepository;
+        this.sc = sc;
     }
 
     public void handle() throws SQLException {
-        Scanner sc = new Scanner(System.in);
 
         System.out.println("+---------------------------------+");
         System.out.println("| 1. Por CPF                      |");
