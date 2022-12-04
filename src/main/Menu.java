@@ -28,6 +28,11 @@ public class Menu {
   private final CadastrarMesaUseCase cadastrarMesaUseCase;
   private final RemoverMesaUseCase removerMesaUseCase;
 
+  private final AtualizarSituacaoMesaUseCase atualizarSituacaoMesaUseCase;
+
+  private final AtualizarGarcomResponsavelUseCase atualizarGarcomResponsavelUseCase;
+
+
   // Antigo! Deve ser removido
   static List<Mesa> BD_Mesa = new ArrayList<>();
 
@@ -54,7 +59,7 @@ public class Menu {
     this.cadastrarMesaUseCase = new CadastrarMesaUseCase(mesasRepository, garconsRepository, sc);
     this.removerMesaUseCase = new RemoverMesaUseCase(mesasRepository,sc);
     this.atualizarSituacaoMesaUseCase = new AtualizarSituacaoMesaUseCase(mesasRepository,sc);
-    this.atulizarGarcomResponsavelUseCase = new AtualizarGarcomResponsavelUseCase(garconsRepository,mesasRepository,sc);
+    this.atualizarGarcomResponsavelUseCase = new AtualizarGarcomResponsavelUseCase(garconsRepository,mesasRepository,sc);
 
   }
 
@@ -163,7 +168,7 @@ public class Menu {
           this.atualizarSituacaoMesaUseCase.handle();
           break;
         case 3:
-          this.atulizarGarcomResponsavelUseCase.handle();
+          this.atualizarGarcomResponsavelUseCase.handle();
           break;
         case 4:
           this.removerMesaUseCase.handle();

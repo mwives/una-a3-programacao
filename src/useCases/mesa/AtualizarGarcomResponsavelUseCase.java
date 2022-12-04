@@ -28,7 +28,7 @@ public class AtualizarGarcomResponsavelUseCase {
     public void handle() throws SQLException {
         List <Mesa> mesacadastradas = this.mesasRepository.findAll();
         for (Mesa mesa : mesacadastradas){
-            MesasHelper.imprimirInformaçoesMesa(mesa);
+            MesasHelper.imprimirInformacoesMesa(mesa);
         }
         System.out.println("\nDigite o número da mesa que deseja alterar o garcom responsável: ");
         int numeroMesa = sc.nextInt();

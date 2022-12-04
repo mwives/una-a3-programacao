@@ -21,7 +21,7 @@ public class AtualizarSituacaoMesaUseCase {
     public void handle() throws SQLException {
         List<Mesa> mesascadastradas = this.mesasRepository.findAll();
         for (Mesa mesa : mesascadastradas) {
-            MesasHelper.imprimirInformaçoesMesa(mesa);
+            MesasHelper.imprimirInformacoesMesa(mesa);
         }
         System.out.println("\nDigite o número da mesa que deseja atualizar a situação: ");
         int numeroMesa = sc.nextInt();
