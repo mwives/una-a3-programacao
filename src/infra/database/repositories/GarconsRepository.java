@@ -74,6 +74,34 @@ public class GarconsRepository {
     return null;
   }
 
+  public Garcom findByCodigoGarcom(int codigoGarcom) throws SQLException {
+    PreparedStatement statement = null;
+
+    try {
+      String sql = "SELECT * FROM garcons WHERE codigo_garcom = ?;";
+
+      statement = connection.prepareStatement(sql);
+
+      statement.setInt(1, codigoGarcom);
+
+      ResultSet result = statement.executeQuery();
+
+      if (result.next()) {
+        Garcom garcomEncontrado = GarconsHelper.mapResultSetGarcom(result);
+        return garcomEncontrado;
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      System.out.println("Error ao atualizar garçom responsável");
+    } finally {
+      if (statement != null) {
+        statement.close();
+      }
+    }
+
+    return null;
+  }
+
   public Garcom findByCpf(String cpf) throws SQLException {
     PreparedStatement statement = null;
 
