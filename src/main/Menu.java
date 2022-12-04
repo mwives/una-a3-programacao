@@ -27,6 +27,7 @@ public class Menu {
   private BuscarMesaPeloNumeroUseCase buscarMesaPeloNumeroUseCase;
   private BuscarMesaPorGarcomUseCase buscarMesaPorGarcomUseCase;
   private BuscarMesasLivresUseCase buscarMesasLivresUseCase;
+  private BuscarTodasMesasUseCase buscarTodasMesasUseCase;
   private CadastrarMesaUseCase cadastrarMesaUseCase;
   private RemoverMesaUseCase removerMesaUseCase;
 
@@ -52,6 +53,7 @@ public class Menu {
     this.buscarMesaPeloNumeroUseCase = new BuscarMesaPeloNumeroUseCase(mesasRepository, sc);
     this.buscarMesaPorGarcomUseCase = new BuscarMesaPorGarcomUseCase(mesasRepository, garconsRepository, sc);
     this.buscarMesasLivresUseCase = new BuscarMesasLivresUseCase(mesasRepository);
+    this.buscarTodasMesasUseCase = new BuscarTodasMesasUseCase(mesasRepository);
     this.cadastrarMesaUseCase = new CadastrarMesaUseCase(mesasRepository, garconsRepository, sc);
     this.removerMesaUseCase = new RemoverMesaUseCase(mesasRepository, sc);
   }
@@ -170,7 +172,7 @@ public class Menu {
           this.buscarMesaPeloNumeroUseCase.handle();
           break;
         case 6:
-          opcoesRelatoriosMesa();
+          opcoesRelatoriosMesa(sc);
           break;
         case 0:
           System.out.println("\nVoltando...");
@@ -270,9 +272,7 @@ public class Menu {
     }
   }
 
-  private void opcoesRelatoriosMesa() throws SQLException {
-    Scanner sc = new Scanner(System.in);
-
+  private void opcoesRelatoriosMesa(Scanner sc) throws SQLException {
     System.out.println("+---------------------------------+");
     System.out.println("| 1. Geral                        |");
     System.out.println("| 2. Por mesas livres             |");
@@ -285,7 +285,7 @@ public class Menu {
 
     switch (opcao) {
       case 1:
-        relatorioGeralMesas();
+        this.buscarTodasMesasUseCase.handle();
         break;
       case 2:
         this.buscarMesasLivresUseCase.handle();
@@ -299,20 +299,6 @@ public class Menu {
       default:
         System.out.println("\nOpção inválida!");
         break;
-    }
-  }
-
-  private void imprimirInformacoesMesa(Mesa mesa) {
-    System.out.println("\nID Mesa: " + mesa.getCodigoMesa());
-    System.out.println("Número: " + mesa.getNumeroMesa());
-    System.out.println("Capacidade: " + mesa.getCapacidadeMaxima());
-    System.out.println("Situação: " + mesa.getSituacao());
-    System.out.println("Nome do garçom responsável: " + mesa.getGarcomResponsavel().getNome());
-  }
-
-  private void relatorioGeralMesas() {
-    for (Mesa mesa : BD_Mesa) {
-      imprimirInformacoesMesa(mesa);
     }
   }
 }
