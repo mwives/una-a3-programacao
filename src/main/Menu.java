@@ -24,6 +24,7 @@ public class Menu {
   private MesasRepository mesasRepository;
 
   private BuscarMesaPeloNumeroUseCase buscarMesaPeloNumeroUseCase;
+  private BuscarMesaPorGarcomUseCase buscarMesaPorGarcomUseCase;
   private CadastrarMesaUseCase cadastrarMesaUseCase;
   private RemoverMesaUseCase removerMesaUseCase;
 
@@ -46,6 +47,7 @@ public class Menu {
     this.mesasRepository = new MesasRepository();
 
     this.buscarMesaPeloNumeroUseCase = new BuscarMesaPeloNumeroUseCase(mesasRepository, sc);
+    this.buscarMesaPorGarcomUseCase = new BuscarMesaPorGarcomUseCase(mesasRepository, garconsRepository, sc);
     this.cadastrarMesaUseCase = new CadastrarMesaUseCase(mesasRepository, garconsRepository, sc);
     this.removerMesaUseCase = new RemoverMesaUseCase(mesasRepository, sc);
   }
@@ -288,7 +290,7 @@ public class Menu {
         buscarMesaPelaCapacidade();
         break;
       case 4:
-        buscarMesaPorGarcom();
+        this.buscarMesaPorGarcomUseCase.handle();
         break;
       default:
         System.out.println("\nOpção inválida!");
@@ -342,33 +344,6 @@ public class Menu {
 
     if (!mesaEncontrada) {
       System.out.println("\nNenhuma mesa encontrada para essa capacidade!");
-    }
-  }
-
-  private void buscarMesaPorGarcom() throws SQLException {
-    Scanner sc = new Scanner(System.in);
-
-    Garcom garcom;
-
-    listarEmailGarconsCadastrados();
-
-    System.out.print("Digite o email do garçom: ");
-    String emailGarcom = sc.next();
-
-    garcom = this.garconsRepository.findByEmail(emailGarcom);
-
-    if (garcom == null) {
-      System.out.println("\nNenhuma mesa encontrada para este garçom!");
-      return;
-    }
-
-    for (Mesa mesa : BD_Mesa) {
-      boolean garcomResponsavelPelaMesa = mesa.getGarcomResponsavel().equals(garcom);
-      boolean mesaOcupada = mesa.getSituacao() == SituacaoMesa.OCUPADA;
-
-      if (garcomResponsavelPelaMesa && mesaOcupada) {
-        imprimirInformacoesMesa(mesa);
-      }
     }
   }
 }

@@ -23,7 +23,7 @@ public class BuscarMesaPeloNumeroUseCase {
         Mesa mesa = mesasRepository.findByNumeroMesa(numeroMesa);
 
         if (mesa != null) {
-            MesasHelper.imprimirInformaçoesMesa(mesa);
+            MesasHelper.imprimirInformacoesMesa(mesa);
         } else {
             System.out.println("\nNenhuma mesa encontrada para este número!");
         }

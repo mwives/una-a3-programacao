@@ -10,6 +10,14 @@ public class Mesa {
     private int codigoGarcom;
     private Garcom garcomResponsavel;
 
+    public Mesa(int numeroMesa, int capacidadeMaxima, Garcom garcomResponsavel) {
+        this.numeroMesa = numeroMesa;
+        this.situacao = SituacaoMesa.LIVRE;
+        this.capacidadeMaxima = capacidadeMaxima;
+        this.codigoGarcom = garcomResponsavel.getCodigoGarcom();
+        this.garcomResponsavel = garcomResponsavel;
+    }
+
     public Mesa(int codigoMesa, int numeroMesa, int capacidadeMaxima, int codigoGarcom, Garcom garcomResponsavel) {
         this.codigoMesa = codigoMesa;
         this.numeroMesa = numeroMesa;
@@ -19,11 +27,13 @@ public class Mesa {
         this.garcomResponsavel = garcomResponsavel;
     }
 
-    public Mesa(int numeroMesa, int capacidadeMaxima, Garcom garcomResponsavel) {
+    public Mesa(int codigoMesa, int numeroMesa, SituacaoMesa situacaoMesa, int capacidadeMaxima, int codigoGarcom,
+            Garcom garcomResponsavel) {
+        this.codigoMesa = codigoMesa;
         this.numeroMesa = numeroMesa;
-        this.situacao = SituacaoMesa.LIVRE;
+        this.situacao = situacaoMesa;
         this.capacidadeMaxima = capacidadeMaxima;
-        this.codigoGarcom = garcomResponsavel.getCodigoGarcom();
+        this.codigoGarcom = codigoGarcom;
         this.garcomResponsavel = garcomResponsavel;
     }
 

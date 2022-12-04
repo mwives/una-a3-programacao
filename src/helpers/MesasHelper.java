@@ -2,7 +2,7 @@ package helpers;
 
 import domain.model.entities.Garcom;
 import domain.model.entities.Mesa;
-import domain.model.enums.Genero;
+import domain.model.enums.SituacaoMesa;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,7 +17,7 @@ public class MesasHelper {
         }
     }
 
-    public static void imprimirInformaçoesMesa(Mesa mesa) {
+    public static void imprimirInformacoesMesa(Mesa mesa) {
         System.out.println("\nCódigo mesa: " + mesa.getCodigoMesa());
         System.out.println("Número mesa: " + mesa.getNumeroMesa());
         System.out.println("Situação mesa: " + mesa.getSituacao());
@@ -26,32 +26,25 @@ public class MesasHelper {
     }
 
     public static Mesa mapResultSetMesa(ResultSet result) throws SQLException {
-        Genero sexo;
+        Garcom garcom = GarconsHelper.mapResultSetGarcom(result);
 
-        if (result.getString("sexo").equals("MASCULINO")) {
-            sexo = Genero.MASCULINO;
-        } else if (result.getString("sexo").equals("FEMININO")) {
-            sexo = Genero.FEMININO;
+        SituacaoMesa situacao;
+
+        if (result.getString("situacao").equals("LIVRE")) {
+            situacao = SituacaoMesa.LIVRE;
+        } else if (result.getString("situacao").equals("OCUPADA")) {
+            situacao = SituacaoMesa.OCUPADA;
         } else {
-            sexo = Genero.OUTRO;
+            situacao = SituacaoMesa.RESERVADA;
         }
-
-        Garcom garcomResponsavel = new Garcom(
-                result.getInt("codigo_garcom"),
-                result.getString("nome"),
-                result.getString("data_nascimento"),
-                result.getString("email"),
-                result.getString("telefone"),
-                result.getString("cpf"),
-                sexo,
-                result.getDouble("salario_fixo"));
 
         Mesa mesa = new Mesa(
                 result.getInt("codigo_mesa"),
                 result.getInt("numero_mesa"),
+                situacao,
                 result.getInt("capacidade_maxima"),
                 result.getInt("codigo_garcom"),
-                garcomResponsavel);
+                garcom);
 
         return mesa;
     }
