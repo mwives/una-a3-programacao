@@ -73,6 +73,38 @@ public class MesasRepository {
     return null;
   }
 
+  public List<Mesa> findByCapacidade(int capacidade) throws SQLException {
+    PreparedStatement statement = null;
+
+    try {
+      String sql = "SELECT mesas.*, garcons.* FROM mesas INNER JOIN garcons ON mesas.codigo_garcom = garcons.codigo_garcom WHERE mesas.capacidade_maxima >= ?;";
+
+      statement = connection.prepareStatement(sql);
+
+      statement.setInt(1, capacidade);
+
+      ResultSet resultSet = statement.executeQuery();
+
+      List<Mesa> mesas = new ArrayList<>();
+
+      while (resultSet.next()) {
+        Mesa mesa = MesasHelper.mapResultSetMesa(resultSet);
+        mesas.add(mesa);
+      }
+
+      return mesas;
+    } catch (Exception e) {
+      e.printStackTrace();
+      System.out.println("Error ao listar mesas pela capacidade");
+    } finally {
+      if (statement != null) {
+        statement.close();
+      }
+    }
+
+    return null;
+  }
+
   public Mesa findByNumeroMesa(int numeroMesa) throws SQLException {
     PreparedStatement statement = null;
 

@@ -23,6 +23,7 @@ public class Menu {
   // Mesas
   private MesasRepository mesasRepository;
 
+  private BuscarMesaPelaCapacidadeUseCase buscarMesaPelaCapacidadeUseCase;
   private BuscarMesaPeloNumeroUseCase buscarMesaPeloNumeroUseCase;
   private BuscarMesaPorGarcomUseCase buscarMesaPorGarcomUseCase;
   private BuscarMesasLivresUseCase buscarMesasLivresUseCase;
@@ -47,6 +48,7 @@ public class Menu {
     // Mesas
     this.mesasRepository = new MesasRepository();
 
+    this.buscarMesaPelaCapacidadeUseCase = new BuscarMesaPelaCapacidadeUseCase(mesasRepository, sc);
     this.buscarMesaPeloNumeroUseCase = new BuscarMesaPeloNumeroUseCase(mesasRepository, sc);
     this.buscarMesaPorGarcomUseCase = new BuscarMesaPorGarcomUseCase(mesasRepository, garconsRepository, sc);
     this.buscarMesasLivresUseCase = new BuscarMesasLivresUseCase(mesasRepository);
@@ -289,7 +291,7 @@ public class Menu {
         this.buscarMesasLivresUseCase.handle();
         break;
       case 3:
-        buscarMesaPelaCapacidade();
+        this.buscarMesaPelaCapacidadeUseCase.handle();
         break;
       case 4:
         this.buscarMesaPorGarcomUseCase.handle();
@@ -311,26 +313,6 @@ public class Menu {
   private void relatorioGeralMesas() {
     for (Mesa mesa : BD_Mesa) {
       imprimirInformacoesMesa(mesa);
-    }
-  }
-
-  private void buscarMesaPelaCapacidade() {
-    Scanner sc = new Scanner(System.in);
-
-    System.out.print("Digite a capacidade da mesa: ");
-    int capacidade = sc.nextInt();
-
-    boolean mesaEncontrada = false;
-
-    for (Mesa mesa : BD_Mesa) {
-      if (mesa.getCapacidadeMaxima() >= capacidade) {
-        imprimirInformacoesMesa(mesa);
-        mesaEncontrada = true;
-      }
-    }
-
-    if (!mesaEncontrada) {
-      System.out.println("\nNenhuma mesa encontrada para essa capacidade!");
     }
   }
 }
