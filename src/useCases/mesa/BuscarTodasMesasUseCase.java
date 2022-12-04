@@ -8,7 +8,7 @@ import helpers.MesasHelper;
 import infra.database.repositories.MesasRepository;
 
 public class BuscarTodasMesasUseCase {
-  private MesasRepository mesasRepository;
+  private final MesasRepository mesasRepository;
 
   public BuscarTodasMesasUseCase(MesasRepository mesasRepository) {
     this.mesasRepository = mesasRepository;

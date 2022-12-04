@@ -8,10 +8,10 @@ import helpers.GarconsHelper;
 import infra.database.repositories.GarconsRepository;
 
 public class BuscarGarcomUseCase {
-    private GarconsRepository garconsRepository;
-    private Scanner sc;
+    private final GarconsRepository garconsRepository;
+    private final Scanner sc;
 
-    public BuscarGarcomUseCase(GarconsRepository garconsRepository, Scanner sc) throws Exception {
+    public BuscarGarcomUseCase(GarconsRepository garconsRepository, Scanner sc) {
         this.garconsRepository = garconsRepository;
         this.sc = sc;
     }

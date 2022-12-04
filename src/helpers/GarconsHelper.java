@@ -50,7 +50,7 @@ public class GarconsHelper {
       sexo = Genero.OUTRO;
     }
 
-    Garcom garcom = new Garcom(
+    return new Garcom(
         result.getInt("codigo_garcom"),
         result.getString("nome"),
         result.getString("data_nascimento"),
@@ -59,7 +59,5 @@ public class GarconsHelper {
         result.getString("cpf"),
         sexo,
         result.getDouble("salario_fixo"));
-
-    return garcom;
   }
 }

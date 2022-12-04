@@ -13,27 +13,23 @@ import useCases.mesa.*;
 
 public class Menu {
   // Garçons
-  private GarconsRepository garconsRepository;
+  private final GarconsRepository garconsRepository;
 
-  private BuscarGarcomUseCase buscarGarcomUseCase;
-  private CadastrarGarcomUseCase cadastrarGarcomUseCase;
-  private GerarRelatorioGarcomUseCase gerarRelatorioGarcomUseCase;
-  private RemoverGarcomUseCase removerGarcomUseCase;
+  private final BuscarGarcomUseCase buscarGarcomUseCase;
+  private final CadastrarGarcomUseCase cadastrarGarcomUseCase;
+  private final GerarRelatorioGarcomUseCase gerarRelatorioGarcomUseCase;
+  private final RemoverGarcomUseCase removerGarcomUseCase;
 
-  // Mesas
-  private MesasRepository mesasRepository;
-
-  private BuscarMesaPelaCapacidadeUseCase buscarMesaPelaCapacidadeUseCase;
-  private BuscarMesaPeloNumeroUseCase buscarMesaPeloNumeroUseCase;
-  private BuscarMesaPorGarcomUseCase buscarMesaPorGarcomUseCase;
-  private BuscarMesasLivresUseCase buscarMesasLivresUseCase;
-  private BuscarTodasMesasUseCase buscarTodasMesasUseCase;
-  private CadastrarMesaUseCase cadastrarMesaUseCase;
-  private RemoverMesaUseCase removerMesaUseCase;
+  private final BuscarMesaPelaCapacidadeUseCase buscarMesaPelaCapacidadeUseCase;
+  private final BuscarMesaPeloNumeroUseCase buscarMesaPeloNumeroUseCase;
+  private final BuscarMesaPorGarcomUseCase buscarMesaPorGarcomUseCase;
+  private final BuscarMesasLivresUseCase buscarMesasLivresUseCase;
+  private final BuscarTodasMesasUseCase buscarTodasMesasUseCase;
+  private final CadastrarMesaUseCase cadastrarMesaUseCase;
+  private final RemoverMesaUseCase removerMesaUseCase;
 
   // Antigo! Deve ser removido
   static List<Mesa> BD_Mesa = new ArrayList<>();
-  static int BD_Mesa_Auto_Increment = 1;
 
   public Menu() throws Exception {
     Scanner sc = new Scanner(System.in);
@@ -47,7 +43,8 @@ public class Menu {
     this.removerGarcomUseCase = new RemoverGarcomUseCase(garconsRepository, sc);
 
     // Mesas
-    this.mesasRepository = new MesasRepository();
+    // Mesas
+    MesasRepository mesasRepository = new MesasRepository();
 
     this.buscarMesaPelaCapacidadeUseCase = new BuscarMesaPelaCapacidadeUseCase(mesasRepository, sc);
     this.buscarMesaPeloNumeroUseCase = new BuscarMesaPeloNumeroUseCase(mesasRepository, sc);

@@ -9,8 +9,8 @@ import helpers.MesasHelper;
 import infra.database.repositories.MesasRepository;
 
 public class BuscarMesaPelaCapacidadeUseCase {
-  private MesasRepository mesasRepository;
-  private Scanner sc;
+  private final MesasRepository mesasRepository;
+  private final Scanner sc;
 
   public BuscarMesaPelaCapacidadeUseCase(MesasRepository mesasRepository, Scanner sc) {
     this.mesasRepository = mesasRepository;

@@ -14,7 +14,7 @@ import helpers.MesasHelper;
 import infra.database.connection.DbConnection;
 
 public class MesasRepository {
-  private Connection connection;
+  private final Connection connection;
 
   public MesasRepository() throws Exception {
     this.connection = DbConnection.getInstance();
@@ -118,45 +118,12 @@ public class MesasRepository {
       ResultSet resultSet = statement.executeQuery();
 
       if (resultSet.next()) {
-        Mesa mesaEncontrada = MesasHelper.mapResultSetMesa(resultSet);
-        return mesaEncontrada;
+        return MesasHelper.mapResultSetMesa(resultSet);
       }
 
     } catch (Exception e) {
       e.printStackTrace();
       System.out.println("Error ao encontrar mesa");
-    } finally {
-      if (statement != null) {
-        statement.close();
-      }
-    }
-
-    return null;
-  }
-
-  public List<Mesa> findByGarcomId(int garcomId) throws SQLException {
-    PreparedStatement statement = null;
-
-    try {
-      String sql = "SELECT mesas.*, garcons.* FROM mesas INNER JOIN garcons ON mesas.codigo_garcom = garcons.codigo_garcom WHERE mesas.codigo_garcom = ?;";
-
-      statement = connection.prepareStatement(sql);
-
-      statement.setInt(1, garcomId);
-
-      ResultSet resultSet = statement.executeQuery();
-
-      List<Mesa> mesas = new ArrayList<>();
-
-      while (resultSet.next()) {
-        Mesa mesa = MesasHelper.mapResultSetMesa(resultSet);
-        mesas.add(mesa);
-      }
-
-      return mesas;
-    } catch (Exception e) {
-      e.printStackTrace();
-      System.out.println("Error ao listar mesas por garçom");
     } finally {
       if (statement != null) {
         statement.close();

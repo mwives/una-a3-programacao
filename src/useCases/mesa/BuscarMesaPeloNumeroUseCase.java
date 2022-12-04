@@ -8,8 +8,8 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class BuscarMesaPeloNumeroUseCase {
-    private MesasRepository mesasRepository;
-    private Scanner sc;
+    private final MesasRepository mesasRepository;
+    private final Scanner sc;
 
     public BuscarMesaPeloNumeroUseCase(MesasRepository mesasRepository, Scanner sc) {
         this.mesasRepository = mesasRepository;

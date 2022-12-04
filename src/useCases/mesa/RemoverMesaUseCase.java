@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class RemoverMesaUseCase {
-    private MesasRepository mesasRepository;
-    private Scanner sc;
+    private final MesasRepository mesasRepository;
+    private final Scanner sc;
 
     public RemoverMesaUseCase(MesasRepository mesasRepository, Scanner sc) {
         this.mesasRepository = mesasRepository;

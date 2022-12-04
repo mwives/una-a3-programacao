@@ -38,14 +38,12 @@ public class MesasHelper {
             situacao = SituacaoMesa.RESERVADA;
         }
 
-        Mesa mesa = new Mesa(
+        return new Mesa(
                 result.getInt("codigo_mesa"),
                 result.getInt("numero_mesa"),
                 situacao,
                 result.getInt("capacidade_maxima"),
                 result.getInt("codigo_garcom"),
                 garcom);
-
-        return mesa;
     }
 }
