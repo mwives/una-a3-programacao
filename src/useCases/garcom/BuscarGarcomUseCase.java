@@ -11,7 +11,7 @@ public class BuscarGarcomUseCase {
     private GarconsRepository garconsRepository;
     private Scanner sc;
 
-    public BuscarGarcomUseCase(GarconsRepository garconsRepository,Scanner sc) throws Exception {
+    public BuscarGarcomUseCase(GarconsRepository garconsRepository, Scanner sc) throws Exception {
         this.garconsRepository = garconsRepository;
         this.sc = sc;
     }

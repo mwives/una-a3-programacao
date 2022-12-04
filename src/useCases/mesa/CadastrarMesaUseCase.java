@@ -15,10 +15,11 @@ public class CadastrarMesaUseCase {
   private GarconsRepository garconsRepository;
   private Scanner sc;
 
-  public CadastrarMesaUseCase(MesasRepository mesasRepository, GarconsRepository garconsRepository,Scanner sc) throws Exception {
+  public CadastrarMesaUseCase(MesasRepository mesasRepository, GarconsRepository garconsRepository, Scanner sc)
+      throws Exception {
     this.mesasRepository = mesasRepository;
     this.garconsRepository = garconsRepository;
-    this.sc = sc ;
+    this.sc = sc;
   }
 
   public void handle() throws SQLException {

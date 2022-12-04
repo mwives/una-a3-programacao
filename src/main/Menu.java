@@ -23,9 +23,9 @@ public class Menu {
   // Mesas
   private MesasRepository mesasRepository;
 
+  private BuscarMesaPeloNumeroUseCase buscarMesaPeloNumeroUseCase;
   private CadastrarMesaUseCase cadastrarMesaUseCase;
   private RemoverMesaUseCase removerMesaUseCase;
-  private BuscarMesaPeloNumeroUseCase buscarMesaPeloNumeroUseCase;
 
   // Antigo! Deve ser removido
   static List<Mesa> BD_Mesa = new ArrayList<>();
@@ -37,7 +37,7 @@ public class Menu {
     // Garçons
     this.garconsRepository = new GarconsRepository();
 
-    this.buscarGarcomUseCase = new BuscarGarcomUseCase(garconsRepository,sc);
+    this.buscarGarcomUseCase = new BuscarGarcomUseCase(garconsRepository, sc);
     this.cadastrarGarcomUseCase = new CadastrarGarcomUseCase(garconsRepository, sc);
     this.gerarRelatorioGarcomUseCase = new GerarRelatorioGarcomUseCase(garconsRepository);
     this.removerGarcomUseCase = new RemoverGarcomUseCase(garconsRepository, sc);
@@ -45,9 +45,9 @@ public class Menu {
     // Mesas
     this.mesasRepository = new MesasRepository();
 
+    this.buscarMesaPeloNumeroUseCase = new BuscarMesaPeloNumeroUseCase(mesasRepository, sc);
     this.cadastrarMesaUseCase = new CadastrarMesaUseCase(mesasRepository, garconsRepository, sc);
-    this.removerMesaUseCase = new RemoverMesaUseCase(mesasRepository,sc);
-    this.buscarMesaPeloNumeroUseCase = new BuscarMesaPeloNumeroUseCase(mesasRepository,sc) ;
+    this.removerMesaUseCase = new RemoverMesaUseCase(mesasRepository, sc);
   }
 
   public void show() throws SQLException {
@@ -177,46 +177,6 @@ public class Menu {
 
   }
 
-  // Método antigo de cadastrarMesa
-  private void cadastrarMesa() throws SQLException {
-    int quantidadeGarconsCadastrados = this.garconsRepository.countGarcons();
-
-    if (quantidadeGarconsCadastrados == 0) {
-      System.out.println("\nPara cadastrar uma mesa, é preciso cadastrar um garçom!");
-      return;
-    }
-
-    Scanner sc = new Scanner(System.in);
-
-    System.out.print("\nDigite o número da mesa: ");
-    int numero = sc.nextInt();
-
-    System.out.print("Digite a capacidade da mesa: ");
-    int capacidade = sc.nextInt();
-
-    Garcom garcom;
-
-    do {
-      listarEmailGarconsCadastrados();
-
-      System.out.print("\nDigite o email do garçom responsável: ");
-      String emailGarcom = sc.next();
-
-      garcom = this.garconsRepository.findByEmail(emailGarcom);
-
-      if (garcom == null) {
-        System.out.println("\nGarçom não encontrado!");
-      }
-    } while (garcom == null);
-
-    Mesa mesa = new Mesa(numero, capacidade, garcom);
-
-    BD_Mesa.add(mesa);
-    BD_Mesa_Auto_Increment++;
-
-    System.out.println("\nMesa cadastrada com sucesso!");
-  }
-
   private void atualizarSituacaoMesa() {
     Scanner sc = new Scanner(System.in);
 
@@ -302,45 +262,6 @@ public class Menu {
     for (Garcom g : garconsCadastrados) {
       System.out.println("- " + g.getEmail());
     }
-  }
-
-  private void removerMesa() {
-    Scanner sc = new Scanner(System.in);
-
-    for (Mesa m : BD_Mesa) {
-      System.out.println("- " + m.getNumeroMesa());
-    }
-
-    System.out.print("\nDigite o número da mesa: ");
-    int numero = sc.nextInt();
-
-    for (Mesa mesa : BD_Mesa) {
-      if (mesa.getNumeroMesa() == numero) {
-        BD_Mesa.remove(mesa);
-        mesa.getGarcomResponsavel().removeMesa(mesa);
-
-        System.out.println("\nMesa removida com sucesso!");
-        return;
-      }
-    }
-
-    System.out.println("Mesa não encontrada!");
-  }
-
-  private void buscarMesaPeloNumero() {
-    Scanner sc = new Scanner(System.in);
-
-    System.out.print("Digite o número da mesa: ");
-    int numero = sc.nextInt();
-
-    for (Mesa mesa : BD_Mesa) {
-      if (mesa.getNumeroMesa() == numero) {
-        imprimirInformacoesMesa(mesa);
-        return;
-      }
-    }
-
-    System.out.println("\nNenhuma mesa encontrada para este número!");
   }
 
   private void opcoesRelatoriosMesa() throws SQLException {
