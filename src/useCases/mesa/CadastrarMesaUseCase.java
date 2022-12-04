@@ -11,9 +11,9 @@ import infra.database.repositories.GarconsRepository;
 import infra.database.repositories.MesasRepository;
 
 public class CadastrarMesaUseCase {
-  private MesasRepository mesasRepository;
-  private GarconsRepository garconsRepository;
-  private Scanner sc;
+  private final MesasRepository mesasRepository;
+  private final GarconsRepository garconsRepository;
+  private final Scanner sc;
 
   public CadastrarMesaUseCase(MesasRepository mesasRepository, GarconsRepository garconsRepository, Scanner sc)
       throws Exception {

@@ -8,8 +8,8 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class BuscarMesaPeloNumeroUseCase {
-    private MesasRepository mesasRepository;
-    private Scanner sc;
+    private final MesasRepository mesasRepository;
+    private final Scanner sc;
 
     public BuscarMesaPeloNumeroUseCase(MesasRepository mesasRepository, Scanner sc) {
         this.mesasRepository = mesasRepository;
@@ -23,7 +23,7 @@ public class BuscarMesaPeloNumeroUseCase {
         Mesa mesa = mesasRepository.findByNumeroMesa(numeroMesa);
 
         if (mesa != null) {
-            MesasHelper.imprimirInformaçoesMesa(mesa);
+            MesasHelper.imprimirInformacoesMesa(mesa);
         } else {
             System.out.println("\nNenhuma mesa encontrada para este número!");
         }

@@ -13,25 +13,23 @@ import useCases.mesa.*;
 
 public class Menu {
   // Garçons
-  private GarconsRepository garconsRepository;
+  private final GarconsRepository garconsRepository;
 
-  private BuscarGarcomUseCase buscarGarcomUseCase;
-  private CadastrarGarcomUseCase cadastrarGarcomUseCase;
-  private GerarRelatorioGarcomUseCase gerarRelatorioGarcomUseCase;
-  private RemoverGarcomUseCase removerGarcomUseCase;
+  private final BuscarGarcomUseCase buscarGarcomUseCase;
+  private final CadastrarGarcomUseCase cadastrarGarcomUseCase;
+  private final GerarRelatorioGarcomUseCase gerarRelatorioGarcomUseCase;
+  private final RemoverGarcomUseCase removerGarcomUseCase;
 
-  // Mesas
-  private MesasRepository mesasRepository;
-
-  private BuscarMesaPeloNumeroUseCase buscarMesaPeloNumeroUseCase;
-  private CadastrarMesaUseCase cadastrarMesaUseCase;
-  private RemoverMesaUseCase removerMesaUseCase;
-  private AtualizarSituacaoMesaUseCase atualizarSituacaoMesaUseCase;
-  private AtualizarGarcomResponsavelUseCase atulizarGarcomResponsavelUseCase;
+  private final BuscarMesaPelaCapacidadeUseCase buscarMesaPelaCapacidadeUseCase;
+  private final BuscarMesaPeloNumeroUseCase buscarMesaPeloNumeroUseCase;
+  private final BuscarMesaPorGarcomUseCase buscarMesaPorGarcomUseCase;
+  private final BuscarMesasLivresUseCase buscarMesasLivresUseCase;
+  private final BuscarTodasMesasUseCase buscarTodasMesasUseCase;
+  private final CadastrarMesaUseCase cadastrarMesaUseCase;
+  private final RemoverMesaUseCase removerMesaUseCase;
 
   // Antigo! Deve ser removido
   static List<Mesa> BD_Mesa = new ArrayList<>();
-  static int BD_Mesa_Auto_Increment = 1;
 
   public Menu() throws Exception {
     Scanner sc = new Scanner(System.in);
@@ -45,9 +43,14 @@ public class Menu {
     this.removerGarcomUseCase = new RemoverGarcomUseCase(garconsRepository, sc);
 
     // Mesas
-    this.mesasRepository = new MesasRepository();
+    // Mesas
+    MesasRepository mesasRepository = new MesasRepository();
 
+    this.buscarMesaPelaCapacidadeUseCase = new BuscarMesaPelaCapacidadeUseCase(mesasRepository, sc);
     this.buscarMesaPeloNumeroUseCase = new BuscarMesaPeloNumeroUseCase(mesasRepository, sc);
+    this.buscarMesaPorGarcomUseCase = new BuscarMesaPorGarcomUseCase(mesasRepository, garconsRepository, sc);
+    this.buscarMesasLivresUseCase = new BuscarMesasLivresUseCase(mesasRepository);
+    this.buscarTodasMesasUseCase = new BuscarTodasMesasUseCase(mesasRepository);
     this.cadastrarMesaUseCase = new CadastrarMesaUseCase(mesasRepository, garconsRepository, sc);
     this.removerMesaUseCase = new RemoverMesaUseCase(mesasRepository,sc);
     this.atualizarSituacaoMesaUseCase = new AtualizarSituacaoMesaUseCase(mesasRepository,sc);
@@ -169,7 +172,7 @@ public class Menu {
           this.buscarMesaPeloNumeroUseCase.handle();
           break;
         case 6:
-          opcoesRelatoriosMesa();
+          opcoesRelatoriosMesa(sc);
           break;
         case 0:
           System.out.println("\nVoltando...");
@@ -191,9 +194,7 @@ public class Menu {
     }
   }
 
-  private void opcoesRelatoriosMesa() throws SQLException {
-    Scanner sc = new Scanner(System.in);
-
+  private void opcoesRelatoriosMesa(Scanner sc) throws SQLException {
     System.out.println("+---------------------------------+");
     System.out.println("| 1. Geral                        |");
     System.out.println("| 2. Por mesas livres             |");
@@ -206,96 +207,20 @@ public class Menu {
 
     switch (opcao) {
       case 1:
-        relatorioGeralMesas();
+        this.buscarTodasMesasUseCase.handle();
         break;
       case 2:
-        buscarMesasLivres();
+        this.buscarMesasLivresUseCase.handle();
         break;
       case 3:
-        buscarMesaPelaCapacidade();
+        this.buscarMesaPelaCapacidadeUseCase.handle();
         break;
       case 4:
-        buscarMesaPorGarcom();
+        this.buscarMesaPorGarcomUseCase.handle();
         break;
       default:
         System.out.println("\nOpção inválida!");
         break;
-    }
-  }
-
-  private void imprimirInformacoesMesa(Mesa mesa) {
-    System.out.println("\nID Mesa: " + mesa.getCodigoMesa());
-    System.out.println("Número: " + mesa.getNumeroMesa());
-    System.out.println("Capacidade: " + mesa.getCapacidadeMaxima());
-    System.out.println("Situação: " + mesa.getSituacao());
-    System.out.println("Nome do garçom responsável: " + mesa.getGarcomResponsavel().getNome());
-  }
-
-  private void relatorioGeralMesas() {
-    for (Mesa mesa : BD_Mesa) {
-      imprimirInformacoesMesa(mesa);
-    }
-  }
-
-  private void buscarMesasLivres() {
-    boolean mesaEncontrada = false;
-
-    for (Mesa mesa : BD_Mesa) {
-      if (mesa.getSituacao() == SituacaoMesa.LIVRE) {
-        imprimirInformacoesMesa(mesa);
-        mesaEncontrada = true;
-      }
-    }
-
-    if (!mesaEncontrada) {
-      System.out.println("\nNenhuma mesa livre encontrada!");
-    }
-  }
-
-  private void buscarMesaPelaCapacidade() {
-    Scanner sc = new Scanner(System.in);
-
-    System.out.print("Digite a capacidade da mesa: ");
-    int capacidade = sc.nextInt();
-
-    boolean mesaEncontrada = false;
-
-    for (Mesa mesa : BD_Mesa) {
-      if (mesa.getCapacidadeMaxima() >= capacidade) {
-        imprimirInformacoesMesa(mesa);
-        mesaEncontrada = true;
-      }
-    }
-
-    if (!mesaEncontrada) {
-      System.out.println("\nNenhuma mesa encontrada para essa capacidade!");
-    }
-  }
-
-  private void buscarMesaPorGarcom() throws SQLException {
-    Scanner sc = new Scanner(System.in);
-
-    Garcom garcom;
-
-    listarEmailGarconsCadastrados();
-
-    System.out.print("Digite o email do garçom: ");
-    String emailGarcom = sc.next();
-
-    garcom = this.garconsRepository.findByEmail(emailGarcom);
-
-    if (garcom == null) {
-      System.out.println("\nNenhuma mesa encontrada para este garçom!");
-      return;
-    }
-
-    for (Mesa mesa : BD_Mesa) {
-      boolean garcomResponsavelPelaMesa = mesa.getGarcomResponsavel().equals(garcom);
-      boolean mesaOcupada = mesa.getSituacao() == SituacaoMesa.OCUPADA;
-
-      if (garcomResponsavelPelaMesa && mesaOcupada) {
-        imprimirInformacoesMesa(mesa);
-      }
     }
   }
 }

@@ -14,7 +14,7 @@ import helpers.MesasHelper;
 import infra.database.connection.DbConnection;
 
 public class MesasRepository {
-  private Connection connection;
+  private final Connection connection;
 
   public MesasRepository() throws Exception {
     this.connection = DbConnection.getInstance();
@@ -73,44 +73,15 @@ public class MesasRepository {
     return null;
   }
 
-  public Mesa findByNumeroMesa(int numeroMesa) throws SQLException {
+  public List<Mesa> findByCapacidade(int capacidade) throws SQLException {
     PreparedStatement statement = null;
 
     try {
-      String sql = "SELECT mesas.*, garcons.* FROM mesas INNER JOIN garcons ON mesas.codigo_garcom = garcons.codigo_garcom WHERE mesas.numero_mesa = ?;";
+      String sql = "SELECT mesas.*, garcons.* FROM mesas INNER JOIN garcons ON mesas.codigo_garcom = garcons.codigo_garcom WHERE mesas.capacidade_maxima >= ?;";
 
       statement = connection.prepareStatement(sql);
 
-      statement.setInt(1, numeroMesa);
-
-      ResultSet resultSet = statement.executeQuery();
-
-      if (resultSet.next()) {
-        Mesa mesaEncontrada = MesasHelper.mapResultSetMesa(resultSet);
-        return mesaEncontrada;
-      }
-
-    } catch (Exception e) {
-      e.printStackTrace();
-      System.out.println("Error ao encontrar mesa");
-    } finally {
-      if (statement != null) {
-        statement.close();
-      }
-    }
-
-    return null;
-  }
-
-  public List<Mesa> findByGarcomId(int garcomId) throws SQLException {
-    PreparedStatement statement = null;
-
-    try {
-      String sql = "SELECT mesas.*, garcons.* FROM mesas INNER JOIN garcons ON mesas.codigo_garcom = garcons.codigo_garcom WHERE mesas.codigo_garcom = ?;";
-
-      statement = connection.prepareStatement(sql);
-
-      statement.setInt(1, garcomId);
+      statement.setInt(1, capacidade);
 
       ResultSet resultSet = statement.executeQuery();
 
@@ -124,7 +95,35 @@ public class MesasRepository {
       return mesas;
     } catch (Exception e) {
       e.printStackTrace();
-      System.out.println("Error ao listar mesas por garçom");
+      System.out.println("Error ao listar mesas pela capacidade");
+    } finally {
+      if (statement != null) {
+        statement.close();
+      }
+    }
+
+    return null;
+  }
+
+  public Mesa findByNumeroMesa(int numeroMesa) throws SQLException {
+    PreparedStatement statement = null;
+
+    try {
+      String sql = "SELECT mesas.*, garcons.* FROM mesas INNER JOIN garcons ON mesas.codigo_garcom = garcons.codigo_garcom WHERE mesas.numero_mesa = ?;";
+
+      statement = connection.prepareStatement(sql);
+
+      statement.setInt(1, numeroMesa);
+
+      ResultSet resultSet = statement.executeQuery();
+
+      if (resultSet.next()) {
+        return MesasHelper.mapResultSetMesa(resultSet);
+      }
+
+    } catch (Exception e) {
+      e.printStackTrace();
+      System.out.println("Error ao encontrar mesa");
     } finally {
       if (statement != null) {
         statement.close();
@@ -213,8 +212,41 @@ public class MesasRepository {
     }
   }
 
+  public List<Mesa> findBySituacao(SituacaoMesa situacao) throws SQLException {
+    PreparedStatement statement = null;
+
+    try {
+      String sql = "SELECT mesas.*, garcons.* FROM mesas INNER JOIN garcons ON mesas.codigo_garcom = garcons.codigo_garcom WHERE mesas.situacao = ?;";
+
+      statement = connection.prepareStatement(sql);
+
+      statement.setString(1, situacao.toString());
+
+      ResultSet resultSet = statement.executeQuery();
+
+      List<Mesa> mesas = new ArrayList<>();
+
+      while (resultSet.next()) {
+        Mesa mesa = MesasHelper.mapResultSetMesa(resultSet);
+        mesas.add(mesa);
+      }
+
+      return mesas;
+    } catch (Exception e) {
+      e.printStackTrace();
+      System.out.println("Error ao buscar mesas por situação");
+    } finally {
+      if (statement != null) {
+        statement.close();
+      }
+    }
+
+    return null;
+  }
+
   public void delete(int codigoMesa) throws SQLException {
     PreparedStatement statement = null;
+
     try {
       String sql = "DELETE FROM mesas WHERE codigo_mesa = ?;";
 

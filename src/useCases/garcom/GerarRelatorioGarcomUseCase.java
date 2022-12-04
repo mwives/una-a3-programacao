@@ -8,9 +8,9 @@ import helpers.GarconsHelper;
 import infra.database.repositories.GarconsRepository;
 
 public class GerarRelatorioGarcomUseCase {
-  private GarconsRepository garconsRepository;
+  private final GarconsRepository garconsRepository;
 
-  public GerarRelatorioGarcomUseCase(GarconsRepository garconsRepository) throws Exception {
+  public GerarRelatorioGarcomUseCase(GarconsRepository garconsRepository) {
     this.garconsRepository = garconsRepository;
   }
 

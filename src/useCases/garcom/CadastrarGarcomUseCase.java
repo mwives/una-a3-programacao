@@ -8,10 +8,10 @@ import domain.model.enums.Genero;
 import infra.database.repositories.GarconsRepository;
 
 public class CadastrarGarcomUseCase {
-  private GarconsRepository garconsRepository;
-  private Scanner sc;
+  private final GarconsRepository garconsRepository;
+  private final Scanner sc;
 
-  public CadastrarGarcomUseCase(GarconsRepository garconsRepository, Scanner sc) throws Exception {
+  public CadastrarGarcomUseCase(GarconsRepository garconsRepository, Scanner sc) {
     this.garconsRepository = garconsRepository;
     this.sc = sc;
   }
