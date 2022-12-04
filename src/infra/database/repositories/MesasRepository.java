@@ -167,8 +167,41 @@ public class MesasRepository {
     return null;
   }
 
+  public List<Mesa> findBySituacao(SituacaoMesa situacao) throws SQLException {
+    PreparedStatement statement = null;
+
+    try {
+      String sql = "SELECT mesas.*, garcons.* FROM mesas INNER JOIN garcons ON mesas.codigo_garcom = garcons.codigo_garcom WHERE mesas.situacao = ?;";
+
+      statement = connection.prepareStatement(sql);
+
+      statement.setString(1, situacao.toString());
+
+      ResultSet resultSet = statement.executeQuery();
+
+      List<Mesa> mesas = new ArrayList<>();
+
+      while (resultSet.next()) {
+        Mesa mesa = MesasHelper.mapResultSetMesa(resultSet);
+        mesas.add(mesa);
+      }
+
+      return mesas;
+    } catch (Exception e) {
+      e.printStackTrace();
+      System.out.println("Error ao buscar mesas por situação");
+    } finally {
+      if (statement != null) {
+        statement.close();
+      }
+    }
+
+    return null;
+  }
+
   public void delete(int codigoMesa) throws SQLException {
     PreparedStatement statement = null;
+
     try {
       String sql = "DELETE FROM mesas WHERE codigo_mesa = ?;";
 

@@ -25,6 +25,7 @@ public class Menu {
 
   private BuscarMesaPeloNumeroUseCase buscarMesaPeloNumeroUseCase;
   private BuscarMesaPorGarcomUseCase buscarMesaPorGarcomUseCase;
+  private BuscarMesasLivresUseCase buscarMesasLivresUseCase;
   private CadastrarMesaUseCase cadastrarMesaUseCase;
   private RemoverMesaUseCase removerMesaUseCase;
 
@@ -48,6 +49,7 @@ public class Menu {
 
     this.buscarMesaPeloNumeroUseCase = new BuscarMesaPeloNumeroUseCase(mesasRepository, sc);
     this.buscarMesaPorGarcomUseCase = new BuscarMesaPorGarcomUseCase(mesasRepository, garconsRepository, sc);
+    this.buscarMesasLivresUseCase = new BuscarMesasLivresUseCase(mesasRepository);
     this.cadastrarMesaUseCase = new CadastrarMesaUseCase(mesasRepository, garconsRepository, sc);
     this.removerMesaUseCase = new RemoverMesaUseCase(mesasRepository, sc);
   }
@@ -284,7 +286,7 @@ public class Menu {
         relatorioGeralMesas();
         break;
       case 2:
-        buscarMesasLivres();
+        this.buscarMesasLivresUseCase.handle();
         break;
       case 3:
         buscarMesaPelaCapacidade();
@@ -309,21 +311,6 @@ public class Menu {
   private void relatorioGeralMesas() {
     for (Mesa mesa : BD_Mesa) {
       imprimirInformacoesMesa(mesa);
-    }
-  }
-
-  private void buscarMesasLivres() {
-    boolean mesaEncontrada = false;
-
-    for (Mesa mesa : BD_Mesa) {
-      if (mesa.getSituacao() == SituacaoMesa.LIVRE) {
-        imprimirInformacoesMesa(mesa);
-        mesaEncontrada = true;
-      }
-    }
-
-    if (!mesaEncontrada) {
-      System.out.println("\nNenhuma mesa livre encontrada!");
     }
   }
 
