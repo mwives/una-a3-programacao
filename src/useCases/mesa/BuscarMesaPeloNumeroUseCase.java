@@ -17,7 +17,7 @@ public class BuscarMesaPeloNumeroUseCase {
     }
 
     public void handle() throws SQLException {
-        System.out.print("Digite o número da mesa: ");
+        System.out.print("\nDigite o número da mesa: ");
         int numeroMesa = sc.nextInt();
 
         Mesa mesa = mesasRepository.findByNumeroMesa(numeroMesa);

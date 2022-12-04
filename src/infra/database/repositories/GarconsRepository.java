@@ -159,6 +159,7 @@ public class GarconsRepository {
 
   public void delete(int codigoGarcom) throws SQLException {
     PreparedStatement statement = null;
+
     try {
       String sql = "DELETE FROM garcons WHERE codigo_garcom = ?;";
 

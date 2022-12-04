@@ -18,7 +18,7 @@ public class BuscarMesaPelaCapacidadeUseCase {
   }
 
   public void handle() throws SQLException {
-    System.out.print("Digite a capacidade mínima da mesa: ");
+    System.out.print("\nDigite a capacidade mínima da mesa: ");
     int capacidadeMinima = sc.nextInt();
 
     List<Mesa> mesas = mesasRepository.findByCapacidade(capacidadeMinima);

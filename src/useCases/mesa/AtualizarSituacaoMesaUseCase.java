@@ -20,13 +20,16 @@ public class AtualizarSituacaoMesaUseCase {
 
     public void handle() throws SQLException {
         List<Mesa> mesascadastradas = this.mesasRepository.findAll();
+
         for (Mesa mesa : mesascadastradas) {
             MesasHelper.imprimirInformacoesMesa(mesa);
         }
-        System.out.println("\nDigite o número da mesa que deseja atualizar a situação: ");
+
+        System.out.print("\nDigite o número da mesa que deseja atualizar a situação: ");
         int numeroMesa = sc.nextInt();
 
         Mesa mesa = mesasRepository.findByNumeroMesa(numeroMesa);
+
         if (mesa == null) {
             System.out.println("Mesa não encontrada");
             return;
@@ -64,6 +67,4 @@ public class AtualizarSituacaoMesaUseCase {
 
         System.out.println("\nSituação da mesa atualizada!");
     }
-
 }
-

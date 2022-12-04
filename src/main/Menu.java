@@ -1,25 +1,22 @@
 package main;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
-import domain.model.entities.*;
-import domain.model.enums.SituacaoMesa;
 import infra.database.repositories.*;
 import useCases.garcom.*;
 import useCases.mesa.*;
 
 public class Menu {
   // Garçons
-  private final GarconsRepository garconsRepository;
-
   private final BuscarGarcomUseCase buscarGarcomUseCase;
   private final CadastrarGarcomUseCase cadastrarGarcomUseCase;
   private final GerarRelatorioGarcomUseCase gerarRelatorioGarcomUseCase;
   private final RemoverGarcomUseCase removerGarcomUseCase;
 
+  // Mesas
+  private final AtualizarGarcomResponsavelUseCase atualizarGarcomResponsavelUseCase;
+  private final AtualizarSituacaoMesaUseCase atualizarSituacaoMesaUseCase;
   private final BuscarMesaPelaCapacidadeUseCase buscarMesaPelaCapacidadeUseCase;
   private final BuscarMesaPeloNumeroUseCase buscarMesaPeloNumeroUseCase;
   private final BuscarMesaPorGarcomUseCase buscarMesaPorGarcomUseCase;
@@ -28,19 +25,11 @@ public class Menu {
   private final CadastrarMesaUseCase cadastrarMesaUseCase;
   private final RemoverMesaUseCase removerMesaUseCase;
 
-  private final AtualizarSituacaoMesaUseCase atualizarSituacaoMesaUseCase;
-
-  private final AtualizarGarcomResponsavelUseCase atualizarGarcomResponsavelUseCase;
-
-
-  // Antigo! Deve ser removido
-  static List<Mesa> BD_Mesa = new ArrayList<>();
-
   public Menu() throws Exception {
     Scanner sc = new Scanner(System.in);
 
     // Garçons
-    this.garconsRepository = new GarconsRepository();
+    GarconsRepository garconsRepository = new GarconsRepository();
 
     this.buscarGarcomUseCase = new BuscarGarcomUseCase(garconsRepository, sc);
     this.cadastrarGarcomUseCase = new CadastrarGarcomUseCase(garconsRepository, sc);
@@ -48,19 +37,18 @@ public class Menu {
     this.removerGarcomUseCase = new RemoverGarcomUseCase(garconsRepository, sc);
 
     // Mesas
-    // Mesas
     MesasRepository mesasRepository = new MesasRepository();
 
+    this.atualizarGarcomResponsavelUseCase = new AtualizarGarcomResponsavelUseCase(garconsRepository, mesasRepository,
+        sc);
+    this.atualizarSituacaoMesaUseCase = new AtualizarSituacaoMesaUseCase(mesasRepository, sc);
     this.buscarMesaPelaCapacidadeUseCase = new BuscarMesaPelaCapacidadeUseCase(mesasRepository, sc);
     this.buscarMesaPeloNumeroUseCase = new BuscarMesaPeloNumeroUseCase(mesasRepository, sc);
     this.buscarMesaPorGarcomUseCase = new BuscarMesaPorGarcomUseCase(mesasRepository, garconsRepository, sc);
     this.buscarMesasLivresUseCase = new BuscarMesasLivresUseCase(mesasRepository);
     this.buscarTodasMesasUseCase = new BuscarTodasMesasUseCase(mesasRepository);
     this.cadastrarMesaUseCase = new CadastrarMesaUseCase(mesasRepository, garconsRepository, sc);
-    this.removerMesaUseCase = new RemoverMesaUseCase(mesasRepository,sc);
-    this.atualizarSituacaoMesaUseCase = new AtualizarSituacaoMesaUseCase(mesasRepository,sc);
-    this.atualizarGarcomResponsavelUseCase = new AtualizarGarcomResponsavelUseCase(garconsRepository,mesasRepository,sc);
-
+    this.removerMesaUseCase = new RemoverMesaUseCase(mesasRepository, sc);
   }
 
   public void show() throws SQLException {
@@ -95,7 +83,6 @@ public class Menu {
           break;
       }
     } while (opcao != 0);
-
   }
 
   private void mostrarOpcoesGarcom(Scanner sc) throws SQLException {
@@ -137,7 +124,6 @@ public class Menu {
           break;
       }
     } while (opcao != 0);
-
   }
 
   private void mostrarOpcoesMesa(Scanner sc) throws SQLException {
@@ -187,16 +173,6 @@ public class Menu {
           break;
       }
     } while (opcao != 0);
-
-  }
-  private void listarEmailGarconsCadastrados() throws SQLException {
-    List<Garcom> garconsCadastrados = this.garconsRepository.findAll();
-
-    System.out.println("Garçons cadastrados:");
-
-    for (Garcom g : garconsCadastrados) {
-      System.out.println("- " + g.getEmail());
-    }
   }
 
   private void opcoesRelatoriosMesa(Scanner sc) throws SQLException {

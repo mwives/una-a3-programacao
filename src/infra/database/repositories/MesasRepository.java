@@ -165,8 +165,8 @@ public class MesasRepository {
 
     return null;
   }
-  public void updateSituacao( SituacaoMesa situacaoMesa, int codigoMesa) throws SQLException {
 
+  public void updateSituacao(SituacaoMesa situacaoMesa, int codigoMesa) throws SQLException {
     PreparedStatement statement = null;
 
     try {
@@ -174,41 +174,37 @@ public class MesasRepository {
 
       statement = connection.prepareStatement(sql);
 
-      statement.setString(1,situacaoMesa.toString());
-      statement.setInt(2,codigoMesa);
+      statement.setString(1, situacaoMesa.toString());
+      statement.setInt(2, codigoMesa);
 
       statement.execute();
-
     } catch (Exception e) {
       e.printStackTrace();
       System.out.println("Error ao atualizar situação mesa");
     } finally {
-      if (statement != null){
+      if (statement != null) {
         statement.close();
       }
     }
   }
+
   public void updateGarcomResponsavel(int codigoGarcom, int codigoMesa) throws SQLException {
-    PreparedStatement statement = null ;
+    PreparedStatement statement = null;
 
     try {
-      String sql = "UPDATE mesas SET codigo_garcom = ? WHERE codigo_mesa = ?;" ;
+      String sql = "UPDATE mesas SET codigo_garcom = ? WHERE codigo_mesa = ?;";
 
       statement = connection.prepareStatement(sql);
-      statement.setInt(1,codigoGarcom);
-      statement.setInt(2,codigoMesa);
-
+      statement.setInt(1, codigoGarcom);
+      statement.setInt(2, codigoMesa);
 
       statement.execute();
-
-
     } catch (Exception e) {
       e.printStackTrace();
       System.out.println("Error ao atualizar garcom responsável da mesa");
-    }finally {
-      if (statement == null){
-        statement.close();
-      }
+    } finally {
+      assert statement != null;
+      statement.close();
     }
   }
 
