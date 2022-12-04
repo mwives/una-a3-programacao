@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import domain.model.entities.Garcom;
-import domain.model.enums.Genero;
+import helpers.GarconsHelper;
 
 public class GarconsRepository {
   private Connection connection;
@@ -59,7 +59,7 @@ public class GarconsRepository {
       List<Garcom> garcons = new ArrayList<>();
 
       while (resultSet.next()) {
-        Garcom garcom = mapGarcom(resultSet);
+        Garcom garcom = GarconsHelper.mapResultSetGarcom(resultSet);
         garcons.add(garcom);
       }
 
@@ -87,7 +87,7 @@ public class GarconsRepository {
       ResultSet result = statement.executeQuery();
 
       if (result.next()) {
-        Garcom garcomEncontrado = mapGarcom(result);
+        Garcom garcomEncontrado = GarconsHelper.mapResultSetGarcom(result);
         return garcomEncontrado;
       }
     } catch (Exception e) {
@@ -115,7 +115,7 @@ public class GarconsRepository {
       ResultSet result = statement.executeQuery();
 
       if (result.next()) {
-        Garcom garcomEncontrado = mapGarcom(result);
+        Garcom garcomEncontrado = GarconsHelper.mapResultSetGarcom(result);
         return garcomEncontrado;
       }
     } catch (Exception e) {
@@ -128,30 +128,6 @@ public class GarconsRepository {
     }
 
     return null;
-  }
-
-  private Garcom mapGarcom(ResultSet result) throws SQLException {
-    Genero sexo;
-
-    if (result.getString("sexo").equals("MASCULINO")) {
-      sexo = Genero.MASCULINO;
-    } else if (result.getString("sexo").equals("FEMININO")) {
-      sexo = Genero.FEMININO;
-    } else {
-      sexo = Genero.OUTRO;
-    }
-
-    Garcom garcom = new Garcom(
-        result.getInt("codigo_garcom"),
-        result.getString("nome"),
-        result.getString("data_nascimento"),
-        result.getString("email"),
-        result.getString("telefone"),
-        result.getString("cpf"),
-        sexo,
-        result.getDouble("salario_fixo"));
-
-    return garcom;
   }
 
   public int countGarcons() throws SQLException {

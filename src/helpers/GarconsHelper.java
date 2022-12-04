@@ -1,9 +1,12 @@
 package helpers;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.util.List;
 
 import domain.model.entities.Garcom;
+import domain.model.enums.Genero;
 
 public class GarconsHelper {
   public static void imprimirInformacoesGarcom(Garcom garcom) {
@@ -34,5 +37,29 @@ public class GarconsHelper {
     for (Garcom g : garcons) {
       System.out.println("- " + g.getCpf());
     }
+  }
+
+  public static Garcom mapResultSetGarcom(ResultSet result) throws SQLException {
+    Genero sexo;
+
+    if (result.getString("sexo").equals("MASCULINO")) {
+      sexo = Genero.MASCULINO;
+    } else if (result.getString("sexo").equals("FEMININO")) {
+      sexo = Genero.FEMININO;
+    } else {
+      sexo = Genero.OUTRO;
+    }
+
+    Garcom garcom = new Garcom(
+        result.getInt("codigo_garcom"),
+        result.getString("nome"),
+        result.getString("data_nascimento"),
+        result.getString("email"),
+        result.getString("telefone"),
+        result.getString("cpf"),
+        sexo,
+        result.getDouble("salario_fixo"));
+
+    return garcom;
   }
 }
