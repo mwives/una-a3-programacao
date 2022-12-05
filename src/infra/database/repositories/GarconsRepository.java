@@ -75,6 +75,32 @@ public class GarconsRepository {
     return null;
   }
 
+  public int countMesasGarcom(int codigoGarcom) throws SQLException {
+    PreparedStatement statement = null;
+
+    try {
+      String sql = "SELECT COUNT(*) AS total_mesas FROM mesas WHERE codigo_garcom = ?;";
+
+      statement = connection.prepareStatement(sql);
+
+      statement.setInt(1, codigoGarcom);
+
+      ResultSet resultSet = statement.executeQuery();
+
+      if (resultSet.next()) {
+        return resultSet.getInt("total_mesas");
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      System.out.println("Error ao contar mesas do garçom");
+    } finally {
+      assert statement != null;
+      statement.close();
+    }
+
+    return 0;
+  }
+
   public Garcom findByCodigoGarcom(int codigoGarcom) throws SQLException {
     PreparedStatement statement = null;
 

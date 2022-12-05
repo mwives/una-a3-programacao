@@ -23,7 +23,9 @@ public class GerarRelatorioGarcomUseCase {
     }
 
     for (Garcom garcom : garcons) {
-      GarconsHelper.imprimirInformacoesGarcom(garcom);
+      int quantidadeMesasResponsavel = garconsRepository.countMesasGarcom(garcom.getCodigoGarcom());
+
+      GarconsHelper.imprimirInformacoesGarcom(garcom, quantidadeMesasResponsavel);
     }
   }
 }
